@@ -18,4 +18,6 @@ OsgiKeys.bundleActivator := Option("dynamy.log.LogActivator")
 
 OsgiKeys.privatePackage := Seq("dynamy.log.*")
 
+publishTo := Some(Resolver.file("file",  new File(Path.userHome.absolutePath+"/.m2/repository")))
+
 OsgiKeys.importPackage := Seq("*")
