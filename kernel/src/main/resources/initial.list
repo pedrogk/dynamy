@@ -9,6 +9,7 @@ mvn:org.apache.felix/org.apache.felix.configadmin/1.6.0!start
 
 #Leverage functional programming
 mvn:com.google.guava/guava/13.0.1
+mvn:com.google.code.gson/gson/2.2.2
 
 #Logging
 mvn:org.slf4j/slf4j-api/1.7.2
@@ -39,4 +40,7 @@ mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jopt-simple/4.3_
 mvn:org.apache.mina/mina-core/2.0.7
 mvn:org.apache.sshd/sshd-core/0.8.0
 
-mvn:dynamy.log/dynamy.log_2.9.2/1.0.0
+mvn:dynamy.util/dynamy.util_2.9.2/1.0.0
+
+mvn:dynamy.log/dynamy.log_2.9.2/1.0.0!start
+mvn:dynamy.cache/dynamy.cache_2.9.2/1.0.0!start

@@ -55,7 +55,7 @@ class DynamyServer(serverHome: String) {
 	def start = {
 		setup()
 		framework.start()
-		logger.info("Started felix framework")
+		logger.info("Started osgi framework")
 		installBundles()
 	}
 	def stop  = if(framework != null) framework.stop
