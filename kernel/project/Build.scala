@@ -7,7 +7,8 @@ object Build extends sbt.Build {
   import Dependencies._
 
   val commonDeps = Seq (
-    felixFramework
+    felixFramework,
+    clojure
   )
 
   lazy val root = Project(
@@ -31,9 +32,10 @@ object Resolvers {
 }
 
 object Dependencies {
-  val felixVer = "4.0.3"
-  val akkaVer  = "2.0.4"
+  val felixVer   = "4.0.3"
+  val akkaVer    = "2.0.4"
+  val clojureVer = "1.4.0"
 
   val felixFramework = "org.apache.felix" % "org.apache.felix.framework" % felixVer
-  
+  val clojure        = "org.clojure"      % "clojure"                    % clojureVer
 }
