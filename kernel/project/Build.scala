@@ -36,6 +36,7 @@ object Dependencies {
   val akkaVer    = "2.0.4"
   val clojureVer = "1.4.0"
 
-  val felixFramework = "org.apache.felix" % "org.apache.felix.framework" % felixVer
+  //val felixFramework = "org.apache.felix" % "org.apache.felix.framework" % felixVer
+  val felixFramework = "org.eclipse.tycho" % "org.eclipse.osgi" % "3.8.1.v20120830-144521"
   val clojure        = "org.clojure"      % "clojure"                    % clojureVer
 }
