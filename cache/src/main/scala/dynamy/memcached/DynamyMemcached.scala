@@ -20,20 +20,18 @@ class DynamyMemcache(val client: MemcachedClient) extends DynamyCache {
   override def set[T](key: String, value: T): Unit = client.set(key, 0, value)
   override def set[T](key: String, exp: Int, value: T): Unit = client.set(key, exp, value)
   override def set[T](key: String, exp: Int, value: T, timeout: Long): Unit = client.set(key, exp, value, timeout)
+  override def shutdown() = client.shutdown
 }
 
 class DynamyMemcacheManager(val configurationFile: String) extends DynamyCacheService {
-  var client: MemcachedClient = _
-  
-  configure()
- 
-  override def getCache = new DynamyMemcache(client)
-  override def configure() = {
+  override def build(name: String): DynamyCache = {
 	val parser = new JsonParser()
   	val configurationContents = io.Source.fromFile(configurationFile).mkString
 	val configuration = parser.parse(configurationContents).getAsJsonObject
     val builder = new XMemcachedClientBuilder(AddrUtil.getAddresses(configuration.get("connection").getAsString))
     builder.setCommandFactory(new BinaryCommandFactory())
-    client = builder.build()
+    val client = builder.build()
+    client.setName(name)
+    new DynamyMemcache(client)
   }
 }

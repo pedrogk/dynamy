@@ -1,8 +1,7 @@
 package dynamy.cache
 
 trait DynamyCacheService {
-  def getCache: DynamyCache
-  def configure(): Unit
+  def build(name: String): DynamyCache
 }
 
 trait DynamyCache {
@@ -12,5 +11,6 @@ trait DynamyCache {
   def set[T](key: String, value: T): Unit
   def set[T](key: String, exp: Int, value: T): Unit
   def set[T](key: String, exp: Int, value: T, timeout: Long): Unit
+  def shutdown()
 }
 
