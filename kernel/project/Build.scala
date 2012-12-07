@@ -7,7 +7,8 @@ object Build extends sbt.Build {
   import Dependencies._
 
   val commonDeps = Seq (
-    felixFramework,
+    osgiFramework,
+    xmemcached,
     clojure
   )
 
@@ -32,11 +33,11 @@ object Resolvers {
 }
 
 object Dependencies {
-  val felixVer   = "4.0.3"
-  val akkaVer    = "2.0.4"
-  val clojureVer = "1.4.0"
+  val equinoxVer    = "3.8.1.v20120830-144521"
+  val clojureVer    = "1.4.0"
+  val xmemcachedVer = "1.3.8"
 
-  //val felixFramework = "org.apache.felix" % "org.apache.felix.framework" % felixVer
-  val felixFramework = "org.eclipse.tycho" % "org.eclipse.osgi" % "3.8.1.v20120830-144521"
-  val clojure        = "org.clojure"      % "clojure"                    % clojureVer
+  val osgiFramework = "org.eclipse.tycho"         % "org.eclipse.osgi" % equinoxVer
+  val clojure       = "org.clojure"               % "clojure"          % clojureVer
+  val xmemcached    = "com.googlecode.xmemcached" % "xmemcached"       % xmemcachedVer
 }
