@@ -7,6 +7,7 @@ class ServerSetup(val serverPath: String) {
   val confPath         = Paths.get(serverPath, "conf")
   val logsPath         = Paths.get(serverPath, "logs")
   val kernelProperties = Paths.get(serverPath, "conf", "kernel.properties")
+  val logbackConf = Paths.get(serverPath, "conf", "logback.xml")
   val initializedPath  = Paths.get(serverPath, ".initialized")
 
 	def isInitialized = Files.exists(initializedPath)
@@ -15,6 +16,7 @@ class ServerSetup(val serverPath: String) {
 		Files.createDirectories(confPath)
 		Files.createDirectories(logsPath)
 		Files.copy(getClass.getResourceAsStream("/kernel.properties"), kernelProperties)
+		Files.copy(getClass.getResourceAsStream("/logback.xml"), logbackConf)
 		Files.createFile(initializedPath)
 	}
 	
