@@ -9,6 +9,8 @@ import scala.collection.JavaConversions._
 
 import org.osgi.framework.launch._
 
+import org.osgi.framework.startlevel._
+
 import java.nio.file._
 
 class DynamyServer(serverHome: String) {
@@ -35,19 +37,22 @@ class DynamyServer(serverHome: String) {
   def installBundles() = {
   	val bundles = io.Source.fromInputStream(getClass.getResourceAsStream("/initial.list")).getLines
   	val Comment = """#(.*)""".r
-  	val Bundle  = """([^!]+)!?(start)?""".r
+  	val Bundle  = """([^!]+)!?(start)?!?([1-9][0-9]*)?""".r
   	for(b <- bundles) {
   		b match {
   			case Comment(c) => {
   				logger.fine("Got a comment %s".format(c))
   			}
-  			case Bundle(url, start) => {
+  			case Bundle(url, start, runlevel) => {
   				val b = framework.getBundleContext.installBundle(url)
   				logger.info("Bundle %s installed".format(b))
   				if("start".equals(start)) {
   					b.start
   					logger.info("Bundle %s started".format(b))
   				}
+                if(runlevel != null) {
+                    b.adapt(classOf[BundleStartLevel]).setStartLevel(runlevel.toInt)
+                }
   			}
   			case _ => {}
   		}

@@ -61,7 +61,7 @@ mvn:org.apache.aries.quiesce/org.apache.aries.quiesce.manager/1.0.0!start
 mvn:org.apache.aries.blueprint/org.apache.aries.blueprint/1.0.0!start
 mvn:org.apache.aries.transaction/org.apache.aries.transaction.blueprint/1.0.0!start
 mvn:org.apache.aries.jpa/org.apache.aries.jpa.api/1.0.0
-mvn:org.apache.aries.jpa/org.apache.aries.jpa.container/1.0.0!start
+mvn:org.apache.aries.jpa/org.apache.aries.jpa.container/1.0.0!start!3
 mvn:org.apache.aries.jpa/org.apache.aries.jpa.container.context/1.0.1!start
 mvn:org.apache.aries.jpa/org.apache.aries.jpa.blueprint.aries/1.0.0!start
 
