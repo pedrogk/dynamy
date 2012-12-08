@@ -8,8 +8,6 @@ object Build extends sbt.Build {
 
   val commonDeps = Seq (
     osgiFramework,
-    xmemcached,
-    slf4j,
     clojure
   )
 
@@ -36,11 +34,7 @@ object Resolvers {
 object Dependencies {
   val equinoxVer    = "3.8.1.v20120830-144521"
   val clojureVer    = "1.4.0"
-  val xmemcachedVer = "1.3.8"
-  val slf4Ver       = "1.7.2"
 
   val osgiFramework = "org.eclipse.tycho"         % "org.eclipse.osgi" % equinoxVer
   val clojure       = "org.clojure"               % "clojure"          % clojureVer
-  val xmemcached    = "com.googlecode.xmemcached" % "xmemcached"       % xmemcachedVer
-  val slf4j         = "org.slf4j"                 % "slf4j-api"        % slf4Ver
 }

@@ -1,4 +1,6 @@
-<configuration>
+<configuration debug="true">
+
+  <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator"/>
 
   <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <!-- Support multiple-JVM writing to the same log file -->
