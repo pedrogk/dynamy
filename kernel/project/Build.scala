@@ -42,5 +42,5 @@ object Dependencies {
   val osgiFramework = "org.eclipse.tycho"         % "org.eclipse.osgi" % equinoxVer
   val clojure       = "org.clojure"               % "clojure"          % clojureVer
   val xmemcached    = "com.googlecode.xmemcached" % "xmemcached"       % xmemcachedVer
-  val slf4j         = "org.slf4j"                 % "slf4j-simple"     % slf4Ver
+  val slf4j         = "org.slf4j"                 % "slf4j-api"        % slf4Ver
 }
