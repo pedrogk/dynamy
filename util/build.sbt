@@ -8,5 +8,5 @@ osgiSettings
 
 publishTo := Some(Resolver.file("file",  new File(Path.userHome.absolutePath+"/.m2/repository")))
 
-OsgiKeys.exportPackage := Seq("dynamy.cache")
+OsgiKeys.exportPackage := Seq("dynamy.cache", "dynamy.shell", "dynamy.shell.annotations")
 
