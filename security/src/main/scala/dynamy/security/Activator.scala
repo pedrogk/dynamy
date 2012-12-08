@@ -10,6 +10,7 @@ import dynamy.security.tokens.DynamyAuthenticationToken
 import tokens.DynamyAuthenticationToken
 import dynamy.security.access.OsgiJdbcSecurityAccess
 import java.security.Security
+import java.nio.file._
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 
 class Activator extends BundleActivator {
@@ -19,9 +20,11 @@ class Activator extends BundleActivator {
   override def start(context: BundleContext) = {
     Security.addProvider(new BouncyCastleProvider())
     val currentLoader = Thread.currentThread().getContextClassLoader()
+    val serverPath = System.getProperty("prog.home")
+    val path = Paths.get(serverPath, "conf", "shiro.ini")
     try {
     	Thread.currentThread().setContextClassLoader(classOf[Activator].getClassLoader())
-	    val factory = new IniSecurityManagerFactory("conf/shiro.ini")
+	    val factory = new IniSecurityManagerFactory(path.toString)
 	    logger.info("Creating factory {}", factory)
 	    val securityManager = factory.getInstance()
 	    logger.info("Creating security manager {}", securityManager)

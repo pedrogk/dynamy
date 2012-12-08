@@ -1,4 +1,5 @@
 package dynamy.shell.runtime.auth
+
 import org.apache.sshd.server.PasswordAuthenticator
 import org.apache.sshd.server.session.ServerSession
 import org.apache.shiro.SecurityUtils
