@@ -11,6 +11,11 @@ trait DynamyCache {
   def set[T](key: String, value: T): Unit
   def set[T](key: String, exp: Int, value: T): Unit
   def set[T](key: String, exp: Int, value: T, timeout: Long): Unit
+
+  def remove(key: String): Unit
+  def clear(): Unit
+  def getName: String
+
   def shutdown()
 }
 

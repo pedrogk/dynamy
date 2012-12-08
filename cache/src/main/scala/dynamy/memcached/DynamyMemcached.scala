@@ -21,6 +21,13 @@ class DynamyMemcache(val client: MemcachedClient) extends DynamyCache {
   override def set[T](key: String, exp: Int, value: T): Unit = client.set(key, exp, value)
   override def set[T](key: String, exp: Int, value: T, timeout: Long): Unit = client.set(key, exp, value, timeout)
   override def shutdown() = client.shutdown
+
+  override def getName = client.getName
+
+  override def clear() = client.flushAllWithNoReply()
+
+  override def remove(key: String) = client.delete(key)
+
 }
 
 class DynamyMemcacheManager(val configurationFile: String) extends DynamyCacheService {
