@@ -40,7 +40,10 @@ mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jopt-simple/4.3_
 mvn:org.apache.mina/mina-core/2.0.7
 mvn:org.apache.sshd/sshd-core/0.8.0
 
+#Dynamy
 mvn:dynamy.util/dynamy.util_2.9.2/1.0.0
-
 mvn:dynamy.log/dynamy.log_2.9.2/1.0.0!start
 mvn:dynamy.cache/dynamy.cache_2.9.2/1.0.0!start
+mvn:dynamy.security/dynamy.security_2.9.2/1.0.0!start
+mvn:dynamy.shell/dynamy.shell_2.9.2/1.0.0!start
+mvn:dynamy.commands/dynamy.commands_2.9.2/1.0.0!start

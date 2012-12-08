@@ -41,7 +41,7 @@ class OsgiInstallCommand extends DynamyCommand {
       }
       str.append("\n")
     }
-    println(str.toString())
+    str.toString()
   }
 
 }

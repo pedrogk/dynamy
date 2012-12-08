@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="iamedu">
+        <createTable tableName="DYNAMY_USERS">
+            <column name="ID" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="USERNAME" type="varchar(255)">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="PASSWORD" type="varchar(255)" />
+            <column name="ACTIVE" type="boolean" defaultValueBoolean="true"/>
+        </createTable>
+        <createTable tableName="DYNAMY_AUTHORIZED_KEYS">
+            <column name="KEY" type="varchar(1024)">
+                <constraints nullable="false" />
+            </column>
+            <column name="USER_ID" type="int">
+                <constraints nullable="false" foreignKeyName="FK_KEY_USER" references="DYNAMY_USERS(ID)" />
+            </column>
+        </createTable>
+	<addPrimaryKey tableName="DYNAMY_AUTHORIZED_KEYS" columnNames="KEY,USER_ID" />
+        <createTable tableName="DYNAMY_ROLES">
+            <column name="ID" type="int">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="NAME" type="varchar(255)">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="DESCRIPTION" type="varchar(512)">
+                <constraints nullable="false" unique="true" />
+            </column>
+        </createTable>
+        <createTable tableName="DYNAMY_USER_ROLE">
+            <column name="USER_ID" type="int">
+                <constraints nullable="false" foreignKeyName="FK_UR_USER" references="DYNAMY_USERS(ID)" />
+            </column>
+            <column name="ROLE_ID" type="int">
+                <constraints nullable="false" foreignKeyName="FK_UR_ROLE" references="DYNAMY_ROLES(ID)" />
+            </column>
+        </createTable>
+	<addPrimaryKey tableName="DYNAMY_USER_ROLE" columnNames="USER_ID,ROLE_ID" />
+        <createTable tableName="DYNAMY_ROLE_PERMISSION">
+            <column name="ROLE_ID" type="int">
+                <constraints nullable="false" foreignKeyName="FK_PERMISSION_ROLE" references="DYNAMY_ROLES(ID)" />
+            </column>
+            <column name="PERMISSION" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+	<addPrimaryKey tableName="DYNAMY_ROLE_PERMISSION" columnNames="ROLE_ID,PERMISSION" />
+        <createTable tableName="DYNAMY_USER_PERMISSION">
+            <column name="USER_ID" type="int">
+                <constraints nullable="false" foreignKeyName="FK_PERMISSION_USER" references="DYNAMY_USERS(ID)" />
+            </column>
+            <column name="PERMISSION" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+	<addPrimaryKey tableName="DYNAMY_USER_PERMISSION" columnNames="USER_ID,PERMISSION" />
+    </changeSet>
+    <changeSet id="2" author="iamedu">
+	<insert tableName="DYNAMY_USERS">
+	    <column name="ID" valueNumeric="1"/>
+	    <column name="USERNAME" value="admin"/>
+            <column name="PASSWORD" value="$shiro1$SHA-256$500000$1qhSqpSyVCfBhSWt0juOdw==$atpmFxdmKEaDpPN0ogjJ23H4J5+7hRmMmGiSKncfksE="/>
+            <column name="ACTIVE"   valueBoolean="true"/>
+	</insert>
+	<insert tableName="DYNAMY_ROLES">
+	    <column name="ID" valueNumeric="1"/>
+	    <column name="NAME" value="dynamy.admin"/>
+            <column name="DESCRIPTION" value="Dynamy Administrator"/>
+	</insert>
+	<insert tableName="DYNAMY_ROLE_PERMISSION">
+	    <column name="ROLE_ID" valueNumeric="1"/>
+	    <column name="PERMISSION" value="dynamy:*"/>
+	</insert>
+	<insert tableName="DYNAMY_USER_ROLE">
+	    <column name="ROLE_ID" valueNumeric="1"/>
+	    <column name="USER_ID" valueNumeric="1"/>
+	</insert>
+	<insert tableName="DYNAMY_AUTHORIZED_KEYS">
+	    <column name="USER_ID" valueNumeric="1"/>
+            <column name="KEY" value="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1GcJEeTePOA+ItW6f9+lYkSApOLsm0+eyQVc0JRtoqTrQoxBtHkpobrjsM+PVIrMUmDYDl4irOwCpXqUqlpYXOn96drB/kXChmD4011kdJ5cBKju+4MO7v0d1eTU/uacXnlIYpcFQE/eHNov/oe55EIsY7Zkj/PTnfCASYxxY2JxMs3sZ2L2WalJsVw3LGXfEWsnw9wjqCVrrDiZg+L4DlcdkUdbnCaJFYZm9M1ox923CKNKywpcwPH0UBh8HKUZWX4ZYmGgU7H8yzewfHArFp00prHbHcrQDtVPj/721KuuYt1QVMlkq6GflkVFzqkD9ISfmlPFbGGKFZAgpm92n iamedu@ayla"/>
+	</insert>
+    </changeSet>
+ 
+</databaseChangeLog>

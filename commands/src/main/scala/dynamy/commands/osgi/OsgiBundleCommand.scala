@@ -55,7 +55,7 @@ abstract class OsgiBundleCommand extends DynamyCommand {
         }
       }
     }
-    println(results.mkString("\n"))
+    results.mkString("\n")
   }
 
 }

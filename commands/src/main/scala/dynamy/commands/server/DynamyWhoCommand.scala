@@ -13,8 +13,8 @@ class DynamyWhoCommand  extends DynamyCommand {
 
   override def getCompleter() = null
   
-  override def execute(args: Array[String]) = {
-    println(SecurityUtils.getSubject().getPrincipal())
+  override def execute(args: Array[String]): Object = {
+    SecurityUtils.getSubject().getPrincipal()
   }
   
 }

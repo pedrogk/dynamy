@@ -55,7 +55,7 @@ class OsgiListCommand extends DynamyCommand {
     String.format("%5s|%-65s|%-25s|%12s", bundleId, printName, b.getVersion(), state)
   }
 
-  override def execute(args: Array[String]): Unit = {
+  override def execute(args: Array[String]): Object = {
     var formatter =
       defaultFormatter
 
@@ -81,8 +81,7 @@ class OsgiListCommand extends DynamyCommand {
     if (options.has("help") || options.has("h")) {
       val writer = new StringWriter
       parser.printHelpOn(writer)
-      println(writer.toString())
-      return
+      return writer.toString()
     }
 
     if (options.has("l")) {
@@ -94,7 +93,7 @@ class OsgiListCommand extends DynamyCommand {
         formatter(bundle, options)
       }
 
-    println(list.mkString("\n"))
+    list.mkString("\n")
   }
 
 }

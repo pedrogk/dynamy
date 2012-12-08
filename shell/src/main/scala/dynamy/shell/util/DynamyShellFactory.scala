@@ -61,6 +61,7 @@ class DynamyShellFactory extends Factory[Command] {
         def run() {
           val printWriter = new PrintWriter(out)
           printBanner(printWriter)
+ 
 
           val t = new SshTerminal(env)
 
@@ -100,7 +101,8 @@ class DynamyShellFactory extends Factory[Command] {
                         SecurityUtils.getSubject().hasAllRoles(command.meta.roles().toSeq)
 
                     if (permitted) {
-                      val data = command.execute(args)
+                      val data: Object = command.execute(args)
+                      if(data != null) printWriter.println(data)
                     } else {
                       printWriter.println("No permission to execute command")
                     }
@@ -156,6 +158,7 @@ class DynamyShellFactory extends Factory[Command] {
       out.println(lines)
 
       out.flush()
+
 
     }
 

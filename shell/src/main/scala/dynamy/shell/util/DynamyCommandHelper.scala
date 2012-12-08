@@ -7,7 +7,7 @@ class DynamyCommandHelper(command: DynamyCommand) {
 
   lazy val meta = getMeta()
   
-  def execute(args: Array[String]) = command.execute(args)
+  def execute(args: Array[String]): Object = command.execute(args)
   
   def fullName: String =
   	meta.namespace() + ":" + meta.name()
