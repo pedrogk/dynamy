@@ -26,6 +26,8 @@ class DynamyServer(serverHome: String) {
   	props.load(new FileInputStream(kernelProperties.toFile))
   	for((k, v) <- props) {
   		configuration += (k.toString -> v.toString)
+        if(k.toString.startsWith("dynamy") || k.toString.startsWith("com.atomikos"))
+            System.setProperty(k.toString, v.toString)
   	}
   	configuration
   }
