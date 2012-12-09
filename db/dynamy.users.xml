@@ -25,7 +25,7 @@
                 <constraints nullable="false" foreignKeyName="FK_KEY_USER" references="DYNAMY_USERS(ID)" />
             </column>
         </createTable>
-	<addPrimaryKey tableName="DYNAMY_AUTHORIZED_KEYS" columnNames="KEY,USER_ID" />
+	    <addPrimaryKey tableName="DYNAMY_AUTHORIZED_KEYS" columnNames="KEY,USER_ID" />
         <createTable tableName="DYNAMY_ROLES">
             <column name="ID" type="int">
                 <constraints primaryKey="true" nullable="false" />
@@ -45,7 +45,7 @@
                 <constraints nullable="false" foreignKeyName="FK_UR_ROLE" references="DYNAMY_ROLES(ID)" />
             </column>
         </createTable>
-	<addPrimaryKey tableName="DYNAMY_USER_ROLE" columnNames="USER_ID,ROLE_ID" />
+		<addPrimaryKey tableName="DYNAMY_USER_ROLE" columnNames="USER_ID,ROLE_ID" />
         <createTable tableName="DYNAMY_ROLE_PERMISSION">
             <column name="ROLE_ID" type="int">
                 <constraints nullable="false" foreignKeyName="FK_PERMISSION_ROLE" references="DYNAMY_ROLES(ID)" />
@@ -54,7 +54,7 @@
                 <constraints nullable="false" />
             </column>
         </createTable>
-	<addPrimaryKey tableName="DYNAMY_ROLE_PERMISSION" columnNames="ROLE_ID,PERMISSION" />
+		<addPrimaryKey tableName="DYNAMY_ROLE_PERMISSION" columnNames="ROLE_ID,PERMISSION" />
         <createTable tableName="DYNAMY_USER_PERMISSION">
             <column name="USER_ID" type="int">
                 <constraints nullable="false" foreignKeyName="FK_PERMISSION_USER" references="DYNAMY_USERS(ID)" />
@@ -63,32 +63,97 @@
                 <constraints nullable="false" />
             </column>
         </createTable>
-	<addPrimaryKey tableName="DYNAMY_USER_PERMISSION" columnNames="USER_ID,PERMISSION" />
+		<addPrimaryKey tableName="DYNAMY_USER_PERMISSION" columnNames="USER_ID,PERMISSION" />
+	</changeSet>
+	<changeSet id="2" author="iamedu">
+		<insert tableName="DYNAMY_USERS">
+			<column name="ID" valueNumeric="1"/>
+			<column name="USERNAME" value="admin"/>
+			<column name="PASSWORD" value="$shiro1$SHA-256$500000$1qhSqpSyVCfBhSWt0juOdw==$atpmFxdmKEaDpPN0ogjJ23H4J5+7hRmMmGiSKncfksE="/>
+			<column name="ACTIVE"   valueBoolean="true"/>
+		</insert>
+		<insert tableName="DYNAMY_ROLES">
+			<column name="ID" valueNumeric="1"/>
+			<column name="NAME" value="dynamy.admin"/>
+				<column name="DESCRIPTION" value="Dynamy Administrator"/>
+		</insert>
+		<insert tableName="DYNAMY_ROLE_PERMISSION">
+			<column name="ROLE_ID" valueNumeric="1"/>
+			<column name="PERMISSION" value="dynamy:*"/>
+		</insert>
+		<insert tableName="DYNAMY_USER_ROLE">
+			<column name="ROLE_ID" valueNumeric="1"/>
+			<column name="USER_ID" valueNumeric="1"/>
+		</insert>
+		<insert tableName="DYNAMY_AUTHORIZED_KEYS">
+			<column name="USER_ID" valueNumeric="1"/>
+				<column name="KEY" value="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1GcJEeTePOA+ItW6f9+lYkSApOLsm0+eyQVc0JRtoqTrQoxBtHkpobrjsM+PVIrMUmDYDl4irOwCpXqUqlpYXOn96drB/kXChmD4011kdJ5cBKju+4MO7v0d1eTU/uacXnlIYpcFQE/eHNov/oe55EIsY7Zkj/PTnfCASYxxY2JxMs3sZ2L2WalJsVw3LGXfEWsnw9wjqCVrrDiZg+L4DlcdkUdbnCaJFYZm9M1ox923CKNKywpcwPH0UBh8HKUZWX4ZYmGgU7H8yzewfHArFp00prHbHcrQDtVPj/721KuuYt1QVMlkq6GflkVFzqkD9ISfmlPFbGGKFZAgpm92n iamedu@ayla"/>
+		</insert>
     </changeSet>
-    <changeSet id="2" author="iamedu">
-	<insert tableName="DYNAMY_USERS">
-	    <column name="ID" valueNumeric="1"/>
-	    <column name="USERNAME" value="admin"/>
-            <column name="PASSWORD" value="$shiro1$SHA-256$500000$1qhSqpSyVCfBhSWt0juOdw==$atpmFxdmKEaDpPN0ogjJ23H4J5+7hRmMmGiSKncfksE="/>
-            <column name="ACTIVE"   valueBoolean="true"/>
-	</insert>
-	<insert tableName="DYNAMY_ROLES">
-	    <column name="ID" valueNumeric="1"/>
-	    <column name="NAME" value="dynamy.admin"/>
-            <column name="DESCRIPTION" value="Dynamy Administrator"/>
-	</insert>
-	<insert tableName="DYNAMY_ROLE_PERMISSION">
-	    <column name="ROLE_ID" valueNumeric="1"/>
-	    <column name="PERMISSION" value="dynamy:*"/>
-	</insert>
-	<insert tableName="DYNAMY_USER_ROLE">
-	    <column name="ROLE_ID" valueNumeric="1"/>
-	    <column name="USER_ID" valueNumeric="1"/>
-	</insert>
-	<insert tableName="DYNAMY_AUTHORIZED_KEYS">
-	    <column name="USER_ID" valueNumeric="1"/>
-            <column name="KEY" value="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1GcJEeTePOA+ItW6f9+lYkSApOLsm0+eyQVc0JRtoqTrQoxBtHkpobrjsM+PVIrMUmDYDl4irOwCpXqUqlpYXOn96drB/kXChmD4011kdJ5cBKju+4MO7v0d1eTU/uacXnlIYpcFQE/eHNov/oe55EIsY7Zkj/PTnfCASYxxY2JxMs3sZ2L2WalJsVw3LGXfEWsnw9wjqCVrrDiZg+L4DlcdkUdbnCaJFYZm9M1ox923CKNKywpcwPH0UBh8HKUZWX4ZYmGgU7H8yzewfHArFp00prHbHcrQDtVPj/721KuuYt1QVMlkq6GflkVFzqkD9ISfmlPFbGGKFZAgpm92n iamedu@ayla"/>
-	</insert>
-    </changeSet>
+    <changeSet id="3" author="iamedu">
+        <createTable tableName="JDBC_DS">
+            <column name="ID" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="NAME" type="varchar(512)">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="SERVICE_NAME" type="varchar(1024)">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="DS_CLASS" type="varchar(1024)">
+                <constraints nullable="false" unique="false" />
+            </column>
+            <column name="TEST_QUERY" type="varchar(2048)">
+                <constraints nullable="true" unique="false" />
+            </column>
+			<column name="MIN_POOL" type="int" defaultValueNumeric="2" />
+			<column name="MAX_POOL" type="int" defaultValueNumeric="32" />
+			<column name="IDLE_TIMEOUT" type="int" defaultValueNumeric="60" />
+			<column name="REAP_TIMEOUT" type="int" defaultValueNumeric="0" />
+			<column name="ISOLATION" type="int" defaultValueNumeric="-1" />
+        </createTable>
+        <createTable tableName="JDBC_PROPS">
+            <column name="ID" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="ID_DS" type="int">
+                <constraints nullable="false" foreignKeyName="FK_ID_DS" references="JDBC_DS(ID)" />
+            </column>
+            <column name="PROP_NAME" type="varchar(2048)">
+                <constraints nullable="false" unique="false" />
+            </column>
+            <column name="PROP_VALUE" type="varchar(2048)">
+                <constraints nullable="false" unique="false" />
+            </column>
+		</createTable>
+
+		<insert tableName="JDBC_DS">
+			<column name="ID" valueNumeric="1" />
+			<column name="NAME" value="muaDS" />
+			<column name="SERVICE_NAME" value="jdbc/mua" />
+			<column name="DS_CLASS" value="oracle.jdbc.xa.client.OracleXADataSource"/>
+		</insert>
+
+		<insert tableName="JDBC_PROPS">
+			<column name="ID" valueNumeric="1" />
+			<column name="ID_DS" valueNumeric="1" />
+			<column name="PROP_NAME" value="user" />
+			<column name="PROP_VALUE" value="ssau" />
+		</insert>
+		<insert tableName="JDBC_PROPS">
+			<column name="ID" valueNumeric="2" />
+			<column name="ID_DS" valueNumeric="1" />
+			<column name="PROP_NAME" value="password" />
+			<column name="PROP_VALUE" value="ssau" />
+		</insert>
+		<insert tableName="JDBC_PROPS">
+			<column name="ID" valueNumeric="3" />
+			<column name="ID_DS" valueNumeric="1" />
+			<column name="PROP_NAME" value="URL" />
+			<column name="PROP_VALUE" value="jdbc:oracle:thin:@localhost:1521:XE" />
+		</insert>
+		
+	</changeSet>
  
 </databaseChangeLog>
