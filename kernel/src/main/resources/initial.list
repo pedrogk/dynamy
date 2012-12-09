@@ -89,7 +89,8 @@ mvn:commons-codec/commons-codec/1.7
 
 #circumflex
 https://github.com/just-cloud/dynamy/raw/master/bundles/circumflex-core-2.5.jar
-
+https://github.com/just-cloud/dynamy/raw/master/bundles/circumflex-web-2.5.jar
+https://github.com/just-cloud/dynamy/raw/master/bundles/circumflex-ftl-2.5.jar
 
 #Dynamy
 mvn:dynamy.util/dynamy.util_2.9.2/1.0.0
