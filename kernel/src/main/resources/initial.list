@@ -71,6 +71,10 @@ mvn:org.apache.aries.jpa/org.apache.aries.jpa.container/1.0.0!start!3
 mvn:org.apache.aries.jpa/org.apache.aries.jpa.container.context/1.0.1!start
 mvn:org.apache.aries.jpa/org.apache.aries.jpa.blueprint.aries/1.0.0!start
 
+#Activation and mail
+mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.activation-api-1.1/2.2.0!start
+mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.javamail-api-1.4/2.2.0!start
+
 #Jetty
 mvn:org.apache.geronimo.specs/geronimo-annotation_1.1_spec/1.0.1
 mvn:org.apache.geronimo.specs/geronimo-servlet_3.0_spec/1.0
@@ -108,4 +112,5 @@ mvn:dynamy.cache/dynamy.cache_2.9.2/1.0.0!start
 mvn:dynamy.security/dynamy.security_2.9.2/1.0.0!start
 mvn:dynamy.shell/dynamy.shell_2.9.2/1.0.0!start
 mvn:dynamy.commands/dynamy.commands_2.9.2/1.0.0!start
+mvn:dynamy.services/dynamy.services_2.0.2/1.0.0!start
 
