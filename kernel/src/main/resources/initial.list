@@ -87,12 +87,16 @@ mvn:commons-fileupload/commons-fileupload/1.2.2
 mvn:org.apache.httpcomponents/httpcore-osgi/4.2.3
 mvn:org.apache.httpcomponents/httpclient-osgi/4.2.2
 mvn:commons-codec/commons-codec/1.7
+mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.cglib/2.2.2_1
 
 #circumflex
 https://github.com/just-cloud/dynamy/raw/master/bundles/circumflex-core-2.5.jar
 https://github.com/just-cloud/dynamy/raw/master/bundles/circumflex-web-2.5.jar
 https://github.com/just-cloud/dynamy/raw/master/bundles/circumflex-markeven-2.5.jar
 https://github.com/just-cloud/dynamy/raw/master/bundles/circumflex-ftl-2.5.jar
+
+#squeryl
+https://github.com/just-cloud/dynamy/raw/master/bundles/squeryl_2.9.2-0.9.5-5.jar
 
 #Dynamy
 mvn:dynamy.util/dynamy.util_2.9.2/1.0.0
