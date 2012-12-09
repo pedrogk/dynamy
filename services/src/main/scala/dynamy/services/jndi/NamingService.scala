@@ -1,7 +1,6 @@
 package dynamy.services.jndi
 
-import com.atomikos.jdbc._
-import com.atomikos.jdbc.nonxa._
+import org.apache.commons.dbcp._
 
 import org.osgi.framework._
 
@@ -18,7 +17,7 @@ import org.slf4j._
 
 class NamingService {
 
-    val dataSources = collection.mutable.Map[String, AbstractDataSourceBean]()
+    val dataSources = collection.mutable.Map[String, BasicDataSource]()
     val sr = collection.mutable.ArrayBuffer[ServiceRegistration[_]]()
 
     val logger = LoggerFactory.getLogger(classOf[NamingService])
@@ -37,12 +36,20 @@ class NamingService {
             for((id, name, serviceName, dsClass, testQuery, minPool, maxPool, idleTimeout, reapTimeout, isolation) <- pools.list) {
                 try {
 					val props = (for(p <- DataPoolProps if p.dsID is id) yield p.name ~ p.value).list
-					val javaProps = new java.util.Properties
-					for((name, value) <- props) javaProps.put(name, value)
-					val ds = new AtomikosDataSourceBean
-					ds.setUniqueResourceName(name)
-					ds.setXaDataSourceClassName(dsClass)
-					ds.setXaProperties(javaProps)
+					val ds = new BasicDataSource
+					ds.setDriverClassName(dsClass)
+                    ds.setMinIdle(minPool)
+                    ds.setMaxActive(maxPool)
+                    ds.setInitialSize(minPool)
+                    ds.setValidationQuery(testQuery.getOrElse(null))
+                    ds.setRemoveAbandonedTimeout(idleTimeout)
+                    ds.setDefaultTransactionIsolation(isolation)
+					for((name, value) <- props) {
+                        ds.addConnectionProperty(name, value)
+                        if(name.toLowerCase == "url") ds.setUrl(value)
+                        else if(name.toLowerCase == "user") ds.setUsername(value)
+                        else if(name.toLowerCase == "password") ds.setPassword(value)
+                    }
                     createDataSource(serviceName, ds)
                     logger.info("Registered datasource {}", serviceName)
                 } catch {
@@ -60,16 +67,15 @@ class NamingService {
     }
 
     def buildLocalDs() = {
-        val ds  = new AtomikosNonXADataSourceBean
-        ds.setUniqueResourceName("dynamy/services" + System.currentTimeMillis())
+        val ds  = new BasicDataSource 
         ds.setUrl("jdbc:h2:" + System.getProperty("prog.home") + "/storage/users/db;AUTO_SERVER=TRUE")
-        ds.setUser("sa")
+        ds.setUsername("sa")
         ds.setPassword("")
         ds.setDriverClassName("org.h2.Driver")
         ds
     }
 
-    def createDataSource(name: String, ds: AbstractDataSourceBean) = {
+    def createDataSource(name: String, ds: BasicDataSource) = {
         val cds: javax.sql.DataSource = ds
         val props = new java.util.Hashtable[String, Object]()
 

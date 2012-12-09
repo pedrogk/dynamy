@@ -132,7 +132,7 @@
 			<column name="ID" valueNumeric="1" />
 			<column name="NAME" value="muaDS" />
 			<column name="SERVICE_NAME" value="jdbc/mua" />
-			<column name="DS_CLASS" value="oracle.jdbc.xa.client.OracleXADataSource"/>
+			<column name="DS_CLASS" value="oracle.jdbc.OracleDriver"/>
 		</insert>
 
 		<insert tableName="JDBC_PROPS">

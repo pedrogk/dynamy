@@ -34,6 +34,15 @@ class DynamyServer(serverHome: String) {
   	configuration
   }
 
+  def loadDrivers() = {
+    import java.util.ServiceLoader
+    val drivers = ServiceLoader.load(classOf[java.sql.Driver])
+    for(d <- drivers) {
+      logger.info("Loading driver " + d)
+      java.sql.DriverManager.registerDriver(d)
+    }
+  }
+
   def installBundles() = {
   	val bundles = io.Source.fromInputStream(getClass.getResourceAsStream("/initial.list")).getLines
   	val Comment = """#(.*)""".r
@@ -64,6 +73,7 @@ class DynamyServer(serverHome: String) {
 		framework.start()
 		logger.info("Started osgi framework")
 		installBundles()
+        loadDrivers()
 	}
 	def stop  = if(framework != null) framework.stop
 	def waitForStop = framework.waitForStop(60 * 1000)

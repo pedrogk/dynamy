@@ -9,10 +9,11 @@ import scala.collection.mutable.ListBuffer
 import org.apache.shiro.authz.permission.WildcardPermission
 import org.apache.shiro.authz.Permission
 import org.slf4j.LoggerFactory
-import com.atomikos.jdbc.nonxa.AtomikosNonXADataSourceBean
+
+import org.apache.commons.dbcp._
 
 object OsgiJdbcSecurityAccess {
-  private lazy val dataSources = new ConcurrentHashMap[String, AtomikosNonXADataSourceBean]()
+  private lazy val dataSources = new ConcurrentHashMap[String, BasicDataSource]()
 
   def stop() = {
     for (value <- dataSources.values()) {
@@ -160,11 +161,10 @@ class OsgiJdbcSecurityAccess extends DynamySecurityAccess {
   }
 
   private def buildDataSource() = {
-    val ds = new AtomikosNonXADataSourceBean
+    val ds = new BasicDataSource
     
-    ds.setUniqueResourceName("dynamy/security" + System.currentTimeMillis())
     ds.setUrl(jdbcUri)
-    ds.setUser(username)
+    ds.setUsername(username)
     ds.setPassword(password)
     ds.setDriverClassName(driver)
 

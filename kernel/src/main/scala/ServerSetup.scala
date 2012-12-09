@@ -13,10 +13,8 @@ class ServerSetup(val serverPath: String) {
   val kernelProperties    = Paths.get(serverPath, "conf", "kernel.properties")
   val memcachedProperties = Paths.get(serverPath, "conf", "memcached.json")
   val shiroIni            = Paths.get(serverPath, "conf", "shiro.ini")
-  val atomikos            = Paths.get(serverPath, "conf", "atomikos.properties")
   val jetty               = Paths.get(serverPath, "conf", "jetty.xml")
-  val users               = Map("/users/db.h2.db" -> Paths.get(serverPath, "storage", "users", "db.h2.db"),
-                                "/users/db.trace.db" -> Paths.get(serverPath, "storage", "users", "db.trace.db"))
+  val users               = Map("/users/db.h2.db" -> Paths.get(serverPath, "storage", "users", "db.h2.db"))
   val logbackConf         = Paths.get(serverPath, "conf", "logback.xml")
   val initializedPath     = Paths.get(serverPath, ".initialized")
 
@@ -34,7 +32,6 @@ class ServerSetup(val serverPath: String) {
     Files.createDirectories(storagePath)
     Files.createDirectories(usersPath)
     Files.copy(process("/kernel.properties"), kernelProperties)
-    Files.copy(process("/atomikos.properties"), atomikos)
     Files.copy(process("/shiro.ini"), shiroIni)
     Files.copy(process("/jetty.xml"), jetty)
     Files.copy(getClass.getResourceAsStream("/logback.xml"), logbackConf)

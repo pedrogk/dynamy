@@ -6,7 +6,7 @@ libraryDependencies += "org.osgi" % "org.osgi.compendium" % "4.3.0" % "provided"
 
 libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.2" % "provided"
 
-libraryDependencies += "com.atomikos" % "transactions-osgi" % "3.8.0" % "provided"
+libraryDependencies += "org.apache.servicemix.bundles" % "org.apache.servicemix.bundles.commons-dbcp" % "1.4_3"
 
 libraryDependencies += "com.h2database" % "h2" % "1.2.127"
 
