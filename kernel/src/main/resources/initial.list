@@ -82,9 +82,10 @@ mvn:org.ops4j.pax.web/pax-web-extender-whiteboard/2.1.1!start
 mvn:org.ops4j.pax.web/pax-web-deployer/2.1.1!start
 
 #commons
+mvn:org.jsoup/jsoup/1.7.1
 mvn:commons-fileupload/commons-fileupload/1.2.2
-mvn:org.apache.httpcomponents/httpcore/4.2.3
-mvn:org.apache.httpcomponents/httpclient/4.2.3
+mvn:org.apache.httpcomponents/httpcore-osgi/4.2.3
+mvn:org.apache.httpcomponents/httpclient-osgi/4.2.2
 mvn:commons-codec/commons-codec/1.7
 
 #circumflex
