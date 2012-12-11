@@ -11,7 +11,8 @@ mvn:org.apache.felix/org.apache.felix.configadmin/1.6.0!start
 mvn:com.google.guava/guava/13.0.1
 mvn:com.google.code.gson/gson/2.2.2
 mvn:commons-io/commons-io/2.4
-mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.freemarker/2.3.19_1
+mvn:org.apache.commons/commons-lang3/3.1
+https://github.com/just-cloud/obr/raw/master/dozer-osgi-5.5.0-SNAPSHOT.jar
 
 #Logging
 mvn:org.slf4j/slf4j-api/1.7.2
@@ -83,8 +84,8 @@ mvn:org.ops4j.pax.web/pax-web-spi/2.1.1
 mvn:org.eclipse.jetty.aggregate/jetty-all-server/8.1.8.v20121106
 mvn:org.apache.felix/org.apache.felix.fileinstall/3.2.6
 mvn:org.ops4j.pax.web/pax-web-jetty/2.1.1!start
-mvn:org.ops4j.pax.web/pax-web-runtime/2.1.1!start
 mvn:org.ops4j.pax.web/pax-web-jsp/2.1.1!start
+mvn:org.ops4j.pax.web/pax-web-runtime/2.1.1!start
 mvn:org.ops4j.pax.web/pax-web-extender-war/2.1.1!start
 mvn:org.ops4j.pax.web/pax-web-extender-whiteboard/2.1.1!start
 mvn:org.ops4j.pax.web/pax-web-deployer/2.1.1!start
@@ -95,6 +96,7 @@ mvn:commons-fileupload/commons-fileupload/1.2.2
 mvn:org.apache.httpcomponents/httpcore-osgi/4.2.3
 mvn:org.apache.httpcomponents/httpclient-osgi/4.2.2
 mvn:commons-codec/commons-codec/1.7
+https://github.com/just-cloud/obr/raw/master/org.apache.servicemix.bundles.freemarker-2.3.19_dynamy.jar!start
 
 #circumflex
 https://github.com/just-cloud/dynamy/raw/master/bundles/circumflex-core-2.5.jar
@@ -112,5 +114,7 @@ mvn:dynamy.cache/dynamy.cache_2.9.2/1.0.0!start
 mvn:dynamy.security/dynamy.security_2.9.2/1.0.0!start
 mvn:dynamy.shell/dynamy.shell_2.9.2/1.0.0!start
 mvn:dynamy.commands/dynamy.commands_2.9.2/1.0.0!start
-mvn:dynamy.services/dynamy.services_2.0.2/1.0.0!start
+mvn:dynamy.services/dynamy.services_2.9.2/1.0.0!start
 
+#Osgifier
+file:///data/repos/just-cloud/osgifier/target/osgifier-0.0.1-SNAPSHOT.jar!start
