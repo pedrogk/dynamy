@@ -108,13 +108,11 @@ https://github.com/just-cloud/dynamy/raw/master/bundles/circumflex-ftl-2.5.jar
 https://github.com/just-cloud/dynamy/raw/master/bundles/scalaquery_2.9.1-1-0.10.0-M1.jar
 
 #Dynamy
-mvn:dynamy.util/dynamy.util_2.9.2/1.0.0
-mvn:dynamy.log/dynamy.log_2.9.2/1.0.0!start
-mvn:dynamy.cache/dynamy.cache_2.9.2/1.0.0!start
-mvn:dynamy.security/dynamy.security_2.9.2/1.0.0!start
-mvn:dynamy.shell/dynamy.shell_2.9.2/1.0.0!start
-mvn:dynamy.commands/dynamy.commands_2.9.2/1.0.0!start
-mvn:dynamy.services/dynamy.services_2.9.2/1.0.0!start
-
-#Osgifier
-file:///data/repos/just-cloud/osgifier/target/osgifier-0.0.1-SNAPSHOT.jar!start
+https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/dynamy.util_2.9.2-1.0.0.jar
+https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/dynamy.log_2.9.2-1.0.0.jar!start
+https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/dynamy.cache_2.9.2-1.0.0.jar!start
+https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/dynamy.security_2.9.2-1.0.0.jar!start
+https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/dynamy.shell_2.9.2-1.0.0.jar!start
+https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/dynamy.security_2.9.2-1.0.0.jar!start
+https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/dynamy.commands_2.9.2-1.0.0.jar!start
+https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/dynamy.services_2.9.2-1.0.0.jar!start
