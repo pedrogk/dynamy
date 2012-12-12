@@ -53,14 +53,18 @@ class DynamyServer(serverHome: String) {
   				logger.fine("Got a comment %s".format(c))
   			}
   			case Bundle(url, start, runlevel) => {
-  				val b = framework.getBundleContext.installBundle(url)
-  				logger.info("Bundle %s installed".format(b))
-  				if("start".equals(start)) {
-  					b.start
-  					logger.info("Bundle %s started".format(b))
-  				}
-                if(runlevel != null) {
-                    b.adapt(classOf[BundleStartLevel]).setStartLevel(runlevel.toInt)
+                try {
+					val b = framework.getBundleContext.installBundle(url)
+					logger.info("Bundle %s installed".format(b))
+					if("start".equals(start)) {
+						b.start
+						logger.info("Bundle %s started".format(b))
+					}
+					if(runlevel != null) {
+						b.adapt(classOf[BundleStartLevel]).setStartLevel(runlevel.toInt)
+					}
+                } catch {
+                    case e => logger.log(Level.SEVERE, "Cannot download bundle " + b, e)
                 }
   			}
   			case _ => {}
