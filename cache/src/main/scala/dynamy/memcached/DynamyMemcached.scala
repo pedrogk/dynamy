@@ -9,7 +9,7 @@ import net.rubyeye.xmemcached._
 import net.rubyeye.xmemcached.command._
 import net.rubyeye.xmemcached.utils._
 
-class DynamyMemcache(val client: MemcachedClient) extends DynamyCache {
+class DynamyMemcache(val client: MemcachedClient) extends DynamyCache with LoaderWrapper {
   override def get[T](keys: Set[String]): Map[String, T] = {
     val colls: java.util.Collection[String] = keys
     val vals: java.util.Map[String, T] = client.get(colls)
