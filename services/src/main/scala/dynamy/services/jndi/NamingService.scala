@@ -77,6 +77,11 @@ class NamingService {
 
     def createDataSource(name: String, ds: BasicDataSource) = {
         val cds: javax.sql.DataSource = ds
+
+		//Force init
+		val conn = cds.getConnection
+        conn.close
+
         val props = new java.util.Hashtable[String, Object]()
 
 		props.put("osgi.jndi.service.name", name)

@@ -16,6 +16,8 @@ version := "1.0.0"
 
 osgiSettings
 
+OsgiKeys.dynamicImportPackage := Seq("*")
+
 OsgiKeys.importPackage := Seq("*")
 
 OsgiKeys.privatePackage := Seq("dynamy.services.jndi")
