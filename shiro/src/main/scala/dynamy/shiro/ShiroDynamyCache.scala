@@ -26,9 +26,17 @@ class ShiroDynamyCache[K, V](cache: DynamyCache) extends Cache[K, V] {
     override def get(key: K): V = cache.get(key.toString)
 
     override def put(key: K, value: V) = {
-      val prev = cache.get(key.toString)
-      cache.set(key.toString, value)
-      prev
+      try {
+        logger.info("ONE {}", key)
+        val prev = cache.get(key.toString)
+        logger.info("TWO {}", key)
+        cache.set(key.toString, value)
+        logger.info("THREE {}", key)
+        prev
+      } catch {
+        case e => logger.error("FATAL ERROR", e)
+        throw new RuntimeException(e)
+      }
     }
 
     override def remove(key: K) = {
