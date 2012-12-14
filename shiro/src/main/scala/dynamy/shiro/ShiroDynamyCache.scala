@@ -32,10 +32,11 @@ class ShiroDynamyCache[K, V](cache: DynamyCache) extends Cache[K, V] {
         logger.info("TWO {}", key)
         cache.set(key.toString, value)
         logger.info("THREE {}", key)
-        prev
+        if(prev != null)  prev
+        null.asInstanceOf[V]
       } catch {
         case e => logger.error("FATAL ERROR", e)
-        throw new RuntimeException(e)
+        throw e
       }
     }
 
