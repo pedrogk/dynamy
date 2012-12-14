@@ -13,6 +13,7 @@ class ShiroDynamyCacheManager() extends CacheManager with Initializable with Des
   val logger = LoggerFactory.getLogger(classOf[ShiroDynamyCacheManager])
 
   override def getCache[K, V](name: String): Cache[K, V] = {
+    logger.info("Tried to get cache {}", name)
     val sr = context.getServiceReference(classOf[DynamyCacheService])
     logger.info("Got a sr {}", sr)
     val service = context.getService(sr)
