@@ -14,7 +14,9 @@ class ShiroDynamyCacheManager() extends CacheManager with Initializable with Des
 
   override def getCache[K, V](name: String): Cache[K, V] = {
     val sr = context.getServiceReference(classOf[DynamyCacheService])
+    logger.info("Got a sr {}", sr)
     val service = context.getService(sr)
+    logger.info("Got a service {}", service)
     new ShiroDynamyCache(service.build(name))
   }
 
