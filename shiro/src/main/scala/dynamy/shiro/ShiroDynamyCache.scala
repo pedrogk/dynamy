@@ -31,8 +31,8 @@ class ShiroDynamyCache[K, V](cache: DynamyCache) extends Cache[K, V] {
         val prev = cache.get(key.toString)
         logger.info("TWO {}", key)
         cache.set(key.toString, value)
-        logger.info("THREE {}", key)
-        if(prev != null)  prev
+        logger.info("THREE {}", prev)
+        if(prev != null) prev
         null.asInstanceOf[V]
       } catch {
         case e => logger.error("FATAL ERROR", e)
