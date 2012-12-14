@@ -35,10 +35,10 @@ class DynamyMemcacheManager(val configurationFile: String) extends DynamyCacheSe
 	val parser = new JsonParser()
   	val configurationContents = io.Source.fromFile(configurationFile).mkString
 	val configuration = parser.parse(configurationContents).getAsJsonObject
-    val builder = new XMemcachedClientBuilder(AddrUtil.getAddresses(configuration.get("connection").getAsString))
-    builder.setCommandFactory(new BinaryCommandFactory())
-    val client = builder.build()
-    client.setName(name)
-    new DynamyMemcache(client)
+        val builder = new XMemcachedClientBuilder(AddrUtil.getAddresses(configuration.get("connection").getAsString))
+        builder.setCommandFactory(new BinaryCommandFactory())
+        val client = builder.build()
+        client.setName(name)
+        new DynamyMemcache(client)
   }
 }

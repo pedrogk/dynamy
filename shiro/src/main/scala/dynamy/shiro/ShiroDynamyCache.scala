@@ -9,9 +9,11 @@ import org.slf4j._
 import scala.collection.JavaConversions._
 
 class ShiroDynamyCache[K, V](cache: DynamyCache) extends Cache[K, V] {
-	val logger = LoggerFactory.getLogger(classOf[ShiroDynamyCache[K, V]])
+    val logger = LoggerFactory.getLogger(classOf[ShiroDynamyCache[K, V]])
 
-	override def clear() = {
+    logger.info("Started shiro dynamy cache with {}", cache)
+
+    override def clear() = {
       try {
         cache.clear()
       } catch {
