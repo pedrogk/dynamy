@@ -33,6 +33,7 @@ class NamingService {
         val db = Database.forDataSource(ds)
         db withSession {
             val pools = for(d <- DataPool) yield d
+            val funcs = scala.collection.mutable.ArrayBuffer[javax.sql.DataSource]()
             for((id, name, serviceName, dsClass, testQuery, minPool, maxPool, idleTimeout, reapTimeout, isolation) <- pools.list) {
                 try {
 					val props = (for(p <- DataPoolProps if p.dsID is id) yield p.name ~ p.value).list
@@ -50,8 +51,16 @@ class NamingService {
                         else if(name.toLowerCase == "user") ds.setUsername(value)
                         else if(name.toLowerCase == "password") ds.setPassword(value)
                     }
-                    createDataSource(serviceName, ds)
+                    funcs += createDataSource(serviceName, ds)
                     logger.info("Registered datasource {}", serviceName)
+                } catch {
+                    case e => logger.error("Cannot create pool", e)
+                }
+            }
+            for(f <- funcs) {
+                try {
+                  val c = f.getConnection
+                  c.close
                 } catch {
                     case e => logger.error("Cannot create pool", e)
                 }
@@ -78,9 +87,6 @@ class NamingService {
     def createDataSource(name: String, ds: BasicDataSource) = {
         val cds: javax.sql.DataSource = ds
 
-		//Force init
-		val conn = cds.getConnection
-        conn.close
 
         val props = new java.util.Hashtable[String, Object]()
 
@@ -89,6 +95,7 @@ class NamingService {
         val bc = FrameworkUtil.getBundle(getClass).getBundleContext
         sr += bc.registerService(classOf[javax.sql.DataSource], cds, props)
 
+        cds
     }
 
 }
