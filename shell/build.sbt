@@ -36,6 +36,6 @@ OsgiKeys.privatePackage := Seq("dynamy.shell.runtime.*")
 
 OsgiKeys.bundleActivator := Option("dynamy.shell.runtime.Activator")
 
-publishTo := Some(Resolver.file("file",  new File(Path.userHome.absolutePath+"/.m2/repository")))
+publishTo := Some(Resolver.file("file",  new File("/data/repos/dynamy-bundles")))
 
 

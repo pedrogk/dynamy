@@ -22,5 +22,5 @@ OsgiKeys.importPackage := Seq("*")
 
 OsgiKeys.privatePackage := Seq("dynamy.services.jndi")
 
-publishTo := Some(Resolver.file("file",  new File(Path.userHome.absolutePath+"/.m2/repository")))
+publishTo := Some(Resolver.file("file",  new File("/data/repos/dynamy-bundles")))
 
