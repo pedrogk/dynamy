@@ -8,7 +8,8 @@ object Build extends sbt.Build {
 
   val commonDeps = Seq (
     osgiFramework,
-    clojure
+    clojure,
+    simpleJndi
   )
 
   lazy val root = Project(
@@ -37,4 +38,5 @@ object Dependencies {
 
   val osgiFramework = "org.eclipse.tycho"         % "org.eclipse.osgi" % equinoxVer
   val clojure       = "org.clojure"               % "clojure"          % clojureVer
+  val simpleJndi    = "simple-jndi"               % "simple-jndi"      % "0.11.4.1"
 }

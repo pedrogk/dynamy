@@ -107,6 +107,15 @@ https://github.com/just-cloud/dynamy/raw/master/bundles/circumflex-ftl-2.5.jar
 #Scalaquery
 https://github.com/just-cloud/dynamy/raw/master/bundles/scalaquery_2.9.1-1-0.10.0-M1.jar
 
+#Chameleon MBEANS
+mvn:org.ow2.chameleon.management/chameleon-mbeans/1.0.0!start
+
+#scripting
+https://github.com/just-cloud/obr/raw/master/com.springsource.antlr-2.7.7.jar
+mvn:org.ow2.asm/asm/4.1
+mvn:org.codehaus.groovy/groovy/2.0.6
+mvn:org.codehaus.groovy/groovy-jsr223/2.0.6
+
 #Dynamy
 https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/dynamy.util_2.9.2-1.0.0.jar
 https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/dynamy.log_2.9.2-1.0.0.jar!start

@@ -16,8 +16,7 @@ import java.io.PrintWriter
 import dynamy.shell.runtime.ssh.SshTerminal
 import jline.console.ConsoleReader
 import java.io.FilterOutputStream
-import javax.script.ScriptEngineFactory
-import javax.script.ScriptEngineManager
+import javax.script._
 
 class ScriptingShellFactory(language: String) extends Factory[Command] {
   private val logger = LoggerFactory.getLogger(classOf[ScriptingShellFactory])
@@ -50,18 +49,23 @@ class ScriptingShellFactory(language: String) extends Factory[Command] {
     }
 
     override def start(env: Environment): Unit = {
-      val in = new BufferedInputStream(this.in)
-      val out = new BufferedOutputStream(new OCRNLFilterOutputStream(this.out))
-      val engine = new ScriptEngineManager().getEngineByName(language)
-      engine.put("bundleContext", FrameworkUtil.getBundle(classOf[ScriptingShellFactory]).getBundleContext())
+      val in      = new BufferedInputStream(this.in)
+      val out     = new BufferedOutputStream(new OCRNLFilterOutputStream(this.out))
+      val bc      = FrameworkUtil.getBundle(classOf[ScriptingShellFactory]).getBundleContext()
+      val engine  = new OSGiScriptEngineManager(bc).getEngineByName(language)
+      val context = new SimpleScriptContext()
+
+      val t = new SshTerminal(env)
+      val printWriter = new PrintWriter(out)
+      val reader = new ConsoleReader("Dynamy Just-Cloud Scripting", in, out, t)
+
+      context.setWriter(printWriter)
+      context.setErrorWriter(printWriter)
+      context.setAttribute("bundleContext", bc, ScriptContext.ENGINE_SCOPE)
+      context.setAttribute("bc", bc, ScriptContext.ENGINE_SCOPE)
       executor.submit(new Runnable() {
         def run() {
-          val printWriter = new PrintWriter(out)
           printBanner(printWriter)
-
-          val t = new SshTerminal(env)
-
-          val reader = new ConsoleReader("Dynamy Just-Cloud Scripting", in, out, t)
 
           reader.setPrompt("dynamy script> ")
 
@@ -71,7 +75,7 @@ class ScriptingShellFactory(language: String) extends Factory[Command] {
               case "help" => printHelp(printWriter)
               case s: String => {
                 try {
-                  val retValue = engine.eval(s)
+                  val retValue = engine.eval(s, context)
                   printWriter.println(retValue)
                   printWriter.flush()
                 } catch {
