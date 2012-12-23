@@ -17,6 +17,7 @@ class ServerSetup(val serverPath: String) {
   val jetty               = Paths.get(serverPath, "conf", "jetty.xml")
   val users               = Map("/users/db.h2.db" -> Paths.get(serverPath, "storage", "users", "db.h2.db"))
   val logbackConf         = Paths.get(serverPath, "conf", "logback.xml")
+  val logbackAccessConf   = Paths.get(serverPath, "conf", "logback-access.xml")
   val initializedPath     = Paths.get(serverPath, ".initialized")
 
   def isInitialized = Files.exists(initializedPath)
@@ -37,6 +38,7 @@ class ServerSetup(val serverPath: String) {
     Files.copy(process("/shiro.ini"), shiroIni)
     Files.copy(process("/jetty.xml"), jetty)
     Files.copy(getClass.getResourceAsStream("/logback.xml"), logbackConf)
+    Files.copy(getClass.getResourceAsStream("/logback-access.xml"), logbackAccessConf)
     Files.copy(getClass.getResourceAsStream("/memcached.json"), memcachedProperties)
     for((k, v) <- users) Files.copy(getClass.getResourceAsStream(k), v)
     Files.createFile(initializedPath)

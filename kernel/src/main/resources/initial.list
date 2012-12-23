@@ -22,6 +22,7 @@ mvn:ch.qos.logback/logback-core/1.0.9
 mvn:ch.qos.logback/logback-classic/1.0.9
 mvn:org.slf4j/jul-to-slf4j/1.7.2!start
 mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.perf4j/0.9.16_1
+https://github.com/just-cloud/obr/raw/master/dynamy-logback-access-1.0.9.jar
 
 #memcached
 https://github.com/just-cloud/dynamy/raw/master/bundles/xmemcached-1.3.8.jar

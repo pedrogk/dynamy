@@ -50,12 +50,12 @@
 	</Call>
 
 	<!-- =========================================================== -->
-	<!-- Set handler Collection Structure                            --> 
+	<!-- Set logback access handler                                  -->
 	<!-- =========================================================== -->
 	<Get name="handler">
 		<Call name="addHandler">
 			<Arg>
-				<New class="org.eclipse.jetty.server.handler.DefaultHandler" />
+				<New id="RequestLogHandler" class="org.eclipse.jetty.server.handler.RequestLogHandler" />
 			</Arg>
 		</Call>
 	</Get>
@@ -69,6 +69,14 @@
 	<Set name="gracefulShutdown">1000</Set>
 	<Set name="dumpAfterStart">false</Set>
 	<Set name="dumpBeforeStop">false</Set>
+
+	<Ref id="RequestLogHandler">
+		<Set name="requestLog">
+			<New id="requestLogImpl" class="ch.qos.logback.access.jetty.RequestLogImpl">
+				<Set name="fileName">${prog.home}/conf/logback-access.xml</Set>
+			</New>
+		</Set>
+	</Ref>
 
 </Configure>
 
