@@ -38,11 +38,11 @@
 		<Arg>
 			<New class="org.eclipse.jetty.server.nio.SelectChannelConnector">
 				<Set name="host"><Property name="jetty.host" /></Set>
-				<Set name="port"><Property name="jetty.port" default="8080"/></Set>
+				<Set name="port"><Property name="jetty.port" default="7080"/></Set>
 				<Set name="maxIdleTime">300000</Set>
 				<Set name="Acceptors">2</Set>
 				<Set name="statsOn">false</Set>
-				<Set name="confidentialPort">8443</Set>
+				<Set name="confidentialPort">7081</Set>
 				<Set name="lowResourcesConnections">20000</Set>
 				<Set name="lowResourcesMaxIdleTime">5000</Set>
 			</New>
@@ -52,25 +52,13 @@
 	<!-- =========================================================== -->
 	<!-- Set handler Collection Structure                            --> 
 	<!-- =========================================================== -->
-	<Set name="handler">
-		<New id="Handlers" class="org.eclipse.jetty.server.handler.HandlerCollection">
-			<Set name="handlers">
-				<Array type="org.eclipse.jetty.server.Handler">
-					<Item>
-						<New id="Contexts" class="org.eclipse.jetty.server.handler.ContextHandlerCollection"/>
-					</Item>
-					<Item>
-						<New id="DefaultHandler" class="org.eclipse.jetty.server.handler.DefaultHandler"/>
-					</Item>
-					<!-- add a RequestLogHandler -->
-					<Item>
-						<New id="RequestLogHandler"
-							class="org.eclipse.jetty.server.handler.RequestLogHandler"/>
-					</Item>
-				</Array>
-			</Set>
-		</New>
-	</Set>
+	<Get name="handler">
+		<Call name="addHandler">
+			<Arg>
+				<New class="org.eclipse.jetty.server.handler.DefaultHandler" />
+			</Arg>
+		</Call>
+	</Get>
 
 	<!-- =========================================================== -->
 	<!-- extra options                                               -->
@@ -81,27 +69,6 @@
 	<Set name="gracefulShutdown">1000</Set>
 	<Set name="dumpAfterStart">false</Set>
 	<Set name="dumpBeforeStop">false</Set>
-
-	<Ref id="RequestLogHandler">
-		<Set name="requestLog">
-			<New id="requestLogImpl" class="ch.qos.logback.access.jetty.RequestLogImpl">
-			</New>
-		</Set>
-	</Ref>
-
-	<Call id="MBeanServer" class="java.lang.management.ManagementFactory" name="getPlatformMBeanServer"/>
-	<!-- initialize the Jetty MBean container -->
-	<Get id="Container" name="container">
-		<Call name="addEventListener">
-			<Arg>
-				<New class="org.mortbay.management.MBeanContainer">
-					<Arg><Ref id="MBeanServer"/></Arg>
-					<Set name="managementPort">8082</Set>
-					<Call name="start" />
-				</New>
-			</Arg>
-		</Call>
-	</Get>
 
 </Configure>
 

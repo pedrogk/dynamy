@@ -20,7 +20,6 @@ mvn:org.slf4j/log4j-over-slf4j/1.7.2
 mvn:org.slf4j/jcl-over-slf4j/1.7.2
 mvn:ch.qos.logback/logback-core/1.0.9
 mvn:ch.qos.logback/logback-classic/1.0.9
-mvn:ch.qos.logback/logback-access/1.0.9
 mvn:org.slf4j/jul-to-slf4j/1.7.2!start
 mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.perf4j/0.9.16_1
 
