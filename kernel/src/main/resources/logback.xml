@@ -1,4 +1,6 @@
 <configuration debug="true">
+	
+  <jmxConfigurator />
 
   <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator"/>
 

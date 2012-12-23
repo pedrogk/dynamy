@@ -35,8 +35,10 @@ object Resolvers {
 object Dependencies {
   val equinoxVer    = "3.8.1.v20120830-144521"
   val clojureVer    = "1.4.0"
+  val felixVer      = "4.0.3"
 
-  val osgiFramework = "org.eclipse.tycho"         % "org.eclipse.osgi" % equinoxVer
+  //val osgiFramework = "org.eclipse.tycho"         % "org.eclipse.osgi" % equinoxVer
+  val osgiFramework = "org.apache.felix"          % "org.apache.felix.framework" % felixVer
   val clojure       = "org.clojure"               % "clojure"          % clojureVer
   val simpleJndi    = "simple-jndi"               % "simple-jndi"      % "0.11.4.1"
 }
