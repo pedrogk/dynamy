@@ -2,7 +2,6 @@ package dynamy
 
 import server._
 
-import javax.naming._
 import java.util.logging._
 
 object Main {
@@ -27,9 +26,6 @@ object Main {
 	
 	def main(args: Array[String]): Unit = {
         import sun.misc._
-        //Initialize context
-        var ic = new InitialContext
-        ic.close
         val stopSignal = new java.util.concurrent.CountDownLatch(1)
 		val handler = new SignalHandler {
             override def handle(sig: Signal) = {
