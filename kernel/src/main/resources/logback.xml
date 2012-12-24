@@ -6,7 +6,7 @@
 	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<file>${prog.home}/logs/server.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>${prog.home}/logs/server.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<fileNamePattern>${prog.home}/logs/back/server.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
 			<timeBasedFileNamingAndTriggeringPolicy
 				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
 				<maxFileSize>20MB</maxFileSize>

@@ -47,6 +47,7 @@
 								<maxStackSize>128M</maxStackSize>
 								<extraArguments>
 									<extraArgument>-server</extraArgument>
+									<extraArgument>-XX:MaxPermSize=256m</extraArgument>
 									<extraArgument>-Dcom.sun.management.jmxremote</extraArgument>
 									<extraArgument>-Dcom.sun.management.jmxremote.port=8999</extraArgument>
 									<extraArgument>-Dcom.sun.management.jmxremote.authenticate=false</extraArgument>
