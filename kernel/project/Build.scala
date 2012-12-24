@@ -11,13 +11,16 @@ object Build extends sbt.Build {
     clojure
   )
 
+
   lazy val root = Project(
     id = "dynamy",
     base = file("."),
-    settings = Defaults.defaultSettings ++ packSettings  ++ Seq (resolvers := dynamyResolvers,
-      libraryDependencies ++= commonDeps) ++
+    settings = Defaults.defaultSettings ++ packSettings  ++
       Seq(
-        packMain := Map("dynamy" -> "dynamy.Main")
+        resolvers := dynamyResolvers,
+        libraryDependencies ++= commonDeps,
+        packMain := Map("dynamy" -> "dynamy.Main"),
+        publishTo := Some(Resolver.file("file",  new File("/data/repos/dynamy-bundles")))
       )
   )
   
