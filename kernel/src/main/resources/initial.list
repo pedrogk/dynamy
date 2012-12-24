@@ -33,6 +33,8 @@ mvn:com.h2database/h2/1.3.170!start
 #Connection pooling
 mvn:commons-pool/commons-pool/1.6
 mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-dbcp/1.4_3
+https://github.com/just-cloud/dynamy/raw/master/bundles/jmxutils-1.13.jar
+https://github.com/just-cloud/dynamy/raw/master/bundles/commons-dbcp-jmx-jdbc4-0.2.2.jar
 
 #specs
 mvn:org.jboss.spec.javax.transaction/jboss-transaction-api_1.1_spec/1.0.1.Final
