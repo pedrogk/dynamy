@@ -88,16 +88,16 @@ mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.javamail-api-1.4/2.2
 #Jetty
 mvn:org.apache.geronimo.specs/geronimo-annotation_1.1_spec/1.0.1
 mvn:org.apache.geronimo.specs/geronimo-servlet_3.0_spec/1.0
-mvn:org.ops4j.pax.web/pax-web-api/3.0.0.M1
-mvn:org.ops4j.pax.web/pax-web-spi/3.0.0.M1
+mvn:org.ops4j.pax.web/pax-web-api/2.1.2
+mvn:org.ops4j.pax.web/pax-web-spi/2.1.2
 mvn:org.eclipse.jetty.aggregate/jetty-all-server/8.1.8.v20121106
 mvn:org.apache.felix/org.apache.felix.fileinstall/3.2.6
-mvn:org.ops4j.pax.web/pax-web-jetty/3.0.0.M1!start
-mvn:org.ops4j.pax.web/pax-web-jsp/3.0.0.M1!start
-mvn:org.ops4j.pax.web/pax-web-runtime/3.0.0.M1!start
-mvn:org.ops4j.pax.web/pax-web-extender-war/3.0.0.M1!start
-mvn:org.ops4j.pax.web/pax-web-extender-whiteboard/3.0.0.M1!start
-mvn:org.ops4j.pax.web/pax-web-deployer/3.0.0.M1!start
+mvn:org.ops4j.pax.web/pax-web-jetty/2.1.2!start
+mvn:org.ops4j.pax.web/pax-web-jsp/2.1.2!start
+mvn:org.ops4j.pax.web/pax-web-runtime/2.1.2!start
+mvn:org.ops4j.pax.web/pax-web-extender-war/2.1.2!start
+mvn:org.ops4j.pax.web/pax-web-extender-whiteboard/2.1.2!start
+mvn:org.ops4j.pax.web/pax-web-deployer/2.1.2!start
 
 #commons
 mvn:org.jsoup/jsoup/1.7.1
@@ -125,5 +125,6 @@ https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/dynamy.cache_2.9.
 https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/dynamy.security_2.9.2-1.0.0.jar!start
 https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/dynamy.shell_2.9.2-1.0.0.jar!start
 https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/dynamy.security_2.9.2-1.0.0.jar!start
+https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/dynamy.shiro_2.9.2-1.0.0.jar!start
 https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/dynamy.commands_2.9.2-1.0.0.jar!start
 https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/dynamy.services_2.9.2-1.0.0.jar!start
