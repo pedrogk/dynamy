@@ -88,16 +88,16 @@ mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.javamail-api-1.4/2.2
 #Jetty
 mvn:org.apache.geronimo.specs/geronimo-annotation_1.1_spec/1.0.1
 mvn:org.apache.geronimo.specs/geronimo-servlet_3.0_spec/1.0
-mvn:org.ops4j.pax.web/pax-web-api/2.1.2
-mvn:org.ops4j.pax.web/pax-web-spi/2.1.2
+mvn:org.ops4j.pax.web/pax-web-api/2.1.1
+mvn:org.ops4j.pax.web/pax-web-spi/2.1.1
 mvn:org.eclipse.jetty.aggregate/jetty-all-server/8.1.8.v20121106
 mvn:org.apache.felix/org.apache.felix.fileinstall/3.2.6
-mvn:org.ops4j.pax.web/pax-web-jetty/2.1.2!start
-mvn:org.ops4j.pax.web/pax-web-jsp/2.1.2!start
-mvn:org.ops4j.pax.web/pax-web-runtime/2.1.2!start
-mvn:org.ops4j.pax.web/pax-web-extender-war/2.1.2!start
-mvn:org.ops4j.pax.web/pax-web-extender-whiteboard/2.1.2!start
-mvn:org.ops4j.pax.web/pax-web-deployer/2.1.2!start
+mvn:org.ops4j.pax.web/pax-web-jetty/2.1.1!start
+mvn:org.ops4j.pax.web/pax-web-jsp/2.1.1!start
+mvn:org.ops4j.pax.web/pax-web-runtime/2.1.1!start
+mvn:org.ops4j.pax.web/pax-web-extender-war/2.1.1!start
+mvn:org.ops4j.pax.web/pax-web-extender-whiteboard/2.1.1!start
+mvn:org.ops4j.pax.web/pax-web-deployer/2.1.1!start
 
 #commons
 mvn:org.jsoup/jsoup/1.7.1
