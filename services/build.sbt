@@ -12,6 +12,8 @@ libraryDependencies += "com.h2database" % "h2" % "1.2.127"
 
 libraryDependencies += "org.scalaquery" % "scalaquery_2.9.1-1" % "0.10.0-M1"
 
+libraryDependencies += "net.ju-n.commons-dbcp-jmx" % "commons-dbcp-jmx-jdbc4" % "0.2.2"
+
 version := "1.0.0"
 
 osgiSettings

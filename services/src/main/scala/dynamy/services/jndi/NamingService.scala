@@ -37,7 +37,7 @@ class NamingService {
             for((id, name, serviceName, dsClass, testQuery, minPool, maxPool, idleTimeout, reapTimeout, isolation) <- pools.list) {
                 try {
 					val props = (for(p <- DataPoolProps if p.dsID is id) yield p.name ~ p.value).list
-					val ds = new BasicDataSource
+					val ds = new ManagedBasicDataSource("dataSource-" + serviceName)
 					ds.setDriverClassName(dsClass)
                     ds.setMinIdle(minPool)
                     ds.setMaxActive(maxPool)
@@ -76,7 +76,7 @@ class NamingService {
     }
 
     def buildLocalDs() = {
-        val ds  = new BasicDataSource 
+        val ds  = new ManagedBasicDataSource("dataSource-dynamyServices")
         ds.setUrl("jdbc:h2:" + System.getProperty("prog.home") + "/storage/users/db;AUTO_SERVER=TRUE")
         ds.setUsername("sa")
         ds.setPassword("")
