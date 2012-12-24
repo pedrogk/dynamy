@@ -76,7 +76,7 @@ public class OSGiScriptEngineManager extends ScriptEngineManager{
 	private Map <ScriptEngineManager, ClassLoader> classLoaders;
 	private BundleContext context;
 	private Logger logger = LoggerFactory.getLogger(OSGiScriptEngineManager.class);
-	
+
 	public OSGiScriptEngineManager(BundleContext context){
 		this.context=context;
 		bindings=new SimpleBindings();
@@ -103,7 +103,7 @@ public class OSGiScriptEngineManager extends ScriptEngineManager{
 	public void reloadManagers(){
 		this.classLoaders=findManagers(context);
 	}
-	
+
 	public Object get(String key) {
 		return bindings.get(key);
 	}
@@ -122,7 +122,7 @@ public class OSGiScriptEngineManager extends ScriptEngineManager{
 			Thread.currentThread().setContextClassLoader(old);
 			if (engine!=null) break;
 		}
- 		return engine;
+		return engine;
 	}
 
 	public ScriptEngine getEngineByMimeType(String mimeType) {
@@ -135,7 +135,7 @@ public class OSGiScriptEngineManager extends ScriptEngineManager{
 			Thread.currentThread().setContextClassLoader(old);
 			if (engine!=null) break;
 		}
- 		return engine;
+		return engine;
 	}
 
 	public ScriptEngine getEngineByName(String shortName) {
@@ -156,7 +156,7 @@ public class OSGiScriptEngineManager extends ScriptEngineManager{
 		for(ScriptEngineManager engineManager: classLoaders.keySet()){
 			for (ScriptEngineFactory factory : engineManager.getEngineFactories()){
 				osgiFactories.add(new OSGiScriptEngineFactory(factory, classLoaders.get(engineManager)));
-		}
+			}
 		}
 		return osgiFactories;
 	}
@@ -172,7 +172,7 @@ public class OSGiScriptEngineManager extends ScriptEngineManager{
 
 	public void registerEngineMimeType(String type, ScriptEngineFactory factory) {
 		for(ScriptEngineManager engineManager: classLoaders.keySet())
-		engineManager.registerEngineMimeType(type, factory);
+			engineManager.registerEngineMimeType(type, factory);
 	}
 
 	public void registerEngineName(String name, ScriptEngineFactory factory) {
@@ -197,18 +197,20 @@ public class OSGiScriptEngineManager extends ScriptEngineManager{
 		Map<ScriptEngineManager, ClassLoader> managers=new HashMap<ScriptEngineManager, ClassLoader>();
 		try {
 			for(String factoryName: findFactoryCandidates(context)){
-				//We do not really need the class, but we need the classloader 
-				ClassLoader factoryLoader=Class.forName(factoryName).getClassLoader();
-				ScriptEngineManager manager=new ScriptEngineManager(factoryLoader);
-				manager.setBindings(bindings);
-				managers.put(manager, factoryLoader);
+				try {
+					//We do not really need the class, but we need the classloader 
+					ClassLoader factoryLoader=Class.forName(factoryName).getClassLoader();
+					ScriptEngineManager manager=new ScriptEngineManager(factoryLoader);
+					manager.setBindings(bindings);
+					managers.put(manager, factoryLoader);
+				} catch (Exception e) {
+					logger.error("Cannot load factory", e);
+				}
 			}
-			return managers;
-		} catch (IOException ioe) {
-			throw new RuntimeException(ioe);
-		} catch (ClassNotFoundException cnfe) {
-			throw new RuntimeException(cnfe);
+		} catch(IOException ex) {
+			throw new RuntimeException(ex);
 		}
+		return managers;
 	}
 	/**
 	 * Iterates through all bundles to get the available @link ScriptEngineFactory classes
