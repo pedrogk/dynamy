@@ -7,7 +7,8 @@ import java.util.logging._
 object Main {
 	val logger = Logger.getLogger("dynamy.Main")
 
-	val serverHome = System.getProperty("prog.home")
+	val serverHome = System.getProperty("user.dir")
+    System.setProperty("prog.home", serverHome)
 	val serverSetup  = new ServerSetup(serverHome)
 	
 
