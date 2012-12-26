@@ -37,11 +37,13 @@ class DynamyCommandFactory extends CommandFactory {
           override def start(env: Environment) = {
             try {
               out.println(command.execute(args))
+              out.flush()
               if(exitCallback != null)
                 exitCallback.onExit(0)
             } catch {
               case e => {
                 e.printStackTrace(err)
+                err.flush()
                 if(exitCallback != null)
                   exitCallback.onExit(-1, e.getMessage)
               }
