@@ -31,12 +31,23 @@
 					<execution>
 						<phase>package</phase>
 						<goals>
+							<goal>assemble</goal>
 							<goal>generate-daemons</goal>
 						</goals>
 					</execution>
 				</executions>
 				<configuration>
 					<repositoryLayout>flat</repositoryLayout>
+					<repositoryName>lib</repositoryName>
+					<programs>
+						<program>
+							<name>dynamy-install</name>
+							<mainClass>dynamy.Main</mainClass>
+							<commandLineArguments>
+								<commandLineArgument>install</commandLineArgument>
+							</commandLineArguments>
+						</program>
+					</programs>
 					<daemons>
 						<daemon>
 							<id>dynamy</id>
