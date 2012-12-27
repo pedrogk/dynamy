@@ -25,7 +25,7 @@ class OsgiInstallCommand extends DynamyCommand {
     val str = new StringBuffer
 
     for (arg <- argsOnly) {
-      val Bundle  = """([^!]+)!?(start)?!?([1-9][0-9]*)?""".r
+      val Bundle  = """([^>]+)>?(start)?>?([1-9][0-9]*)?""".r
       try {
         arg match {
           case Bundle(url, start, runlevel) => {
