@@ -31,11 +31,11 @@ class OsgiInstallCommand extends DynamyCommand {
           case Bundle(url, start, runlevel) => {
             val installed = bc.installBundle(url)
             if("start".equals(start)) {
-              b.start
+              installed.start
               logger.info("Bundle %s started".format(b))
             }
             if(runlevel != null) {
-              b.adapt(classOf[BundleStartLevel]).setStartLevel(runlevel.toInt)
+              installed.adapt(classOf[BundleStartLevel]).setStartLevel(runlevel.toInt)
             }
             str.append("Bundle ")
             str.append(installed)
