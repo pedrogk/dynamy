@@ -14,7 +14,7 @@ import org.osgi.framework.startlevel._
   perms = Array("dynamy:osgi:install"),
   description = "Install bundles")
 class OsgiInstallCommand extends DynamyCommand {
-  lazy val logger = LoggerFactory.getLogger(classOf[OsgiListCommand])
+  lazy val logger = LoggerFactory.getLogger(classOf[OsgiInstallCommand])
 
   override def getCompleter() = null
 
