@@ -1,6 +1,6 @@
 package dynamy.services.jndi
 
-import java.util._
+import java.util.{List => _, _}
 
 import com.atomikos.jdbc._
 
@@ -52,6 +52,7 @@ class NamingService {
             tmp.setXaDataSource(dynamicDS)
             val xaprops = new Properties
             for((name, value) <- props) {
+              logger.info("Trying to set up props {}={}", List(name, value).toArray: _*)
               xaprops.put(name, value)
             }
             tmp.setXaProperties(xaprops)
@@ -109,7 +110,7 @@ class NamingService {
   }
 
   def buildLocalDs() = {
-    val ds  = new ManagedBasicDataSource(defaultName + "-dataSource_dynamyServices")
+    val ds  = new BasicDataSource()
     ds.setUrl("jdbc:h2:" + System.getProperty("prog.home") + "/storage/users/db;AUTO_SERVER=TRUE")
     ds.setUsername("sa")
     ds.setPassword("")
