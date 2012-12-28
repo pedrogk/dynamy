@@ -34,18 +34,7 @@ class NamingService {
     val ds = buildLocalDs()
     createDataSource("jdbc/dynamyServices", ds)
     loadDS(ds)
-    try {
-      import com.atomikos.icatch.admin.jmx._
-      import java.lang.management._
-      import javax.management._
-      val service = new JmxTransactionService()
-      val jmx = ManagementFactory.getPlatformMBeanServer()
-      val mBeanName = new ObjectName ( "atomikos:type=Transactions" )
-      jmx.registerMBean ( service , mBeanName )
-    } catch {
-      case e: Exception => logger.error("Cannot register JMX", e)
-    }
-}
+  }
 
   def loadDS(ds: DataSource) = {
     import org.scalaquery.session._
