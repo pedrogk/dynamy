@@ -46,10 +46,8 @@ class NamingService {
         try {
           val props = (for(p <- DataPoolProps if p.dsID is id) yield p.name ~ p.value).list
           val ds = if(xaPool) {
-            val clazz = Class.forName(dsClass, true, ClassLoader.getSystemClassLoader)
-            val dynamicDS = clazz.newInstance.asInstanceOf[XADataSource]
             val tmp = new AtomikosDataSourceBean
-            tmp.setXaDataSource(dynamicDS)
+            tmp.setXaDataSourceClassName(dsClass)
             val xaprops = new Properties
             for((name, value) <- props) {
               logger.info("Trying to set up props {}={}", List(name, value).toArray: _*)
@@ -88,7 +86,9 @@ class NamingService {
         }
       }
       for(f <- funcs) {
+        val cl = Thread.currentThread.getContextClassLoader
         try {
+          Thread.currentThread.setContextClassLoader(ClassLoader.getSystemClassLoader)
           val c: { def close(): Unit } = f match {
             case fd: DataSource => fd.getConnection
             case fx: XADataSource => fx.getXAConnection
@@ -97,6 +97,8 @@ class NamingService {
           c.close
         } catch {
           case e => logger.error("Cannot create pool", e)
+        } finally {
+          Thread.currentThread.setContextClassLoader(cl)
         }
       }
     }
