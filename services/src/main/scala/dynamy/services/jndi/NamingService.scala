@@ -46,7 +46,8 @@ class NamingService {
         try {
           val props = (for(p <- DataPoolProps if p.dsID is id) yield p.name ~ p.value).list
           val ds = if(xaPool) {
-            val dynamicDS = Class.forName(dsClass, true, ClassLoader.getSystemClassLoader).asInstanceOf[XADataSource]
+            val clazz = Class.forName(dsClass, true, ClassLoader.getSystemClassLoader)
+            val dynamicDS = clazz.newInstance.asInstanceOf[XADataSource]
             val tmp = new AtomikosDataSourceBean
             tmp.setXaDataSource(dynamicDS)
             val xaprops = new Properties
