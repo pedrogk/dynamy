@@ -1,6 +1,7 @@
 package dynamy.services.jndi
 
 import org.apache.commons.dbcp._
+import org.apache.commons.dbcp.managed._
 
 import org.osgi.framework._
 
@@ -35,11 +36,20 @@ class NamingService {
     db withSession {
       val pools = for(d <- DataPool) yield d
       val funcs = scala.collection.mutable.ArrayBuffer[javax.sql.DataSource]()
-      for((id, name, serviceName, dsClass, testQuery, minPool, maxPool, idleTimeout, reapTimeout, isolation) <- pools.list) {
+      for((id, name, serviceName, dsClass, testQuery, xaPool, minPool, maxPool, idleTimeout, reapTimeout, isolation) <- pools.list) {
         try {
           val props = (for(p <- DataPoolProps if p.dsID is id) yield p.name ~ p.value).list
-          val ds = new ManagedBasicDataSource(defaultName + "-dataSource_" + serviceName)
-          ds.setDriverClassName(dsClass)
+          val ds = if(xaPool) {
+            val tmp = new BasicManagedDataSource()
+            val tm = findTransactionManager
+            tmp.setXADataSource(dsClass)
+            tmp.setTransactionManager(tm)
+            tmp
+          } else {
+            val tmp = new BasicDataSource()
+            tmp.setDriverClassName(dsClass)
+            tmp
+          }
           ds.setMinIdle(minPool)
           ds.setMaxActive(maxPool)
           ds.setInitialSize(minPool)
@@ -76,6 +86,13 @@ logger.info("Registered datasource {}", serviceName)
   sr.foreach(_.unregister)
     }
 
+  def findTransactionManager() = {
+    import javax.transaction._
+    val bc = FrameworkUtil.getBundle(getClass).getBundleContext
+    val sr = bc.getServiceReference(classOf[TransactionManager])
+    bc.getService(sr)
+  }
+
   def buildLocalDs() = {
     val ds  = new ManagedBasicDataSource(defaultName + "-dataSource_dynamyServices")
     ds.setUrl("jdbc:h2:" + System.getProperty("prog.home") + "/storage/users/db;AUTO_SERVER=TRUE")
@@ -101,18 +118,19 @@ logger.info("Registered datasource {}", serviceName)
 
   }
 
-object DataPool extends Table[(Int, String, String, String, Option[String], Int, Int, Int, Int, Int)]("JDBC_DS") {
+object DataPool extends Table[(Int, String, String, String, Option[String], Boolean, Int, Int, Int, Int, Int)]("JDBC_DS") {
   def id = column[Int]("ID", O NotNull)
   def name = column[String]("NAME")
   def serviceName = column[String]("SERVICE_NAME")
   def dsClass     = column[String]("DS_CLASS")
   def testQuery   = column[Option[String]]("TEST_QUERY")
+  def xaPool      = column[Boolean]("XA_POOL")
   def minPool     = column[Int]("MIN_POOL")
   def maxPool     = column[Int]("MAX_POOL")
   def idleTimeout = column[Int]("IDLE_TIMEOUT")
   def reapTimeout = column[Int]("REAP_TIMEOUT")
   def isolation   = column[Int]("ISOLATION")
-  def * = id ~ name ~ serviceName ~ dsClass ~ testQuery ~ minPool ~ maxPool ~ idleTimeout ~ reapTimeout ~ isolation
+  def * = id ~ name ~ serviceName ~ dsClass ~ testQuery ~ xaPool ~ minPool ~ maxPool ~ idleTimeout ~ reapTimeout ~ isolation
 }
 
 object DataPoolProps extends Table[(Int, Int, String, String)]("JDBC_PROPS") {

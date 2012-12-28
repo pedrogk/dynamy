@@ -107,6 +107,7 @@
             <column name="TEST_QUERY" type="varchar(2048)">
                 <constraints nullable="true" unique="false" />
             </column>
+			<column name="XA_POOL" type="boolean" defaultValueBoolean="false" />
 			<column name="MIN_POOL" type="int" defaultValueNumeric="2" />
 			<column name="MAX_POOL" type="int" defaultValueNumeric="32" />
 			<column name="IDLE_TIMEOUT" type="int" defaultValueNumeric="60" />
@@ -127,33 +128,6 @@
                 <constraints nullable="false" unique="false" />
             </column>
 		</createTable>
-
-		<insert tableName="JDBC_DS">
-			<column name="ID" valueNumeric="1" />
-			<column name="NAME" value="muaDS" />
-			<column name="SERVICE_NAME" value="jdbc/mua" />
-			<column name="DS_CLASS" value="oracle.jdbc.OracleDriver"/>
-		</insert>
-
-		<insert tableName="JDBC_PROPS">
-			<column name="ID" valueNumeric="1" />
-			<column name="ID_DS" valueNumeric="1" />
-			<column name="PROP_NAME" value="user" />
-			<column name="PROP_VALUE" value="ssau" />
-		</insert>
-		<insert tableName="JDBC_PROPS">
-			<column name="ID" valueNumeric="2" />
-			<column name="ID_DS" valueNumeric="1" />
-			<column name="PROP_NAME" value="password" />
-			<column name="PROP_VALUE" value="ssau" />
-		</insert>
-		<insert tableName="JDBC_PROPS">
-			<column name="ID" valueNumeric="3" />
-			<column name="ID_DS" valueNumeric="1" />
-			<column name="PROP_NAME" value="URL" />
-			<column name="PROP_VALUE" value="jdbc:oracle:thin:@localhost:1521:XE" />
-		</insert>
-		
 	</changeSet>
  
 </databaseChangeLog>
