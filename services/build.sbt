@@ -14,6 +14,8 @@ libraryDependencies += "org.scalaquery" % "scalaquery_2.9.1-1" % "0.10.0-M1"
 
 libraryDependencies += "net.ju-n.commons-dbcp-jmx" % "commons-dbcp-jmx-jdbc4" % "0.2.2"
 
+libraryDependencies += "com.atomikos" % "transactions-osgi" % "3.8.0"
+
 libraryDependencies += "javax.transaction" % "jta" % "1.1"
 
 version := "1.0.0"

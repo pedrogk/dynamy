@@ -1,5 +1,9 @@
 package dynamy.services.jndi
 
+import java.util._
+
+import com.atomikos.jdbc._
+
 import org.apache.commons.dbcp._
 import org.apache.commons.dbcp.managed._
 
@@ -16,6 +20,8 @@ import org.scalaquery.ql._
 
 import org.slf4j._
 
+import javax.sql._
+
 class NamingService {
 
   val defaultName = "org.apache.commons.dbcp:ManagedBasicDataSource=ManagedBasicDataSource"
@@ -30,67 +36,75 @@ class NamingService {
     loadDS(ds)
 }
 
-  def loadDS(ds: javax.sql.DataSource) = {
+  def loadDS(ds: DataSource) = {
     import org.scalaquery.session._
     val db = Database.forDataSource(ds)
     db withSession {
       val pools = for(d <- DataPool) yield d
-      val funcs = scala.collection.mutable.ArrayBuffer[javax.sql.DataSource]()
+      val funcs = scala.collection.mutable.ArrayBuffer[CommonDataSource]()
       for((id, name, serviceName, dsClass, testQuery, xaPool, minPool, maxPool, idleTimeout, reapTimeout, isolation) <- pools.list) {
         try {
           val props = (for(p <- DataPoolProps if p.dsID is id) yield p.name ~ p.value).list
           val ds = if(xaPool) {
-            val tmp = new BasicManagedDataSource()
-            val tm = findTransactionManager
-            tmp.setXADataSource(dsClass)
-            tmp.setTransactionManager(tm)
+            val dynamicDS = Class.forName(dsClass, true, ClassLoader.getSystemClassLoader).asInstanceOf[XADataSource]
+            val tmp = new AtomikosDataSourceBean
+            tmp.setXaDataSource(dynamicDS)
+            val xaprops = new Properties
+            for((name, value) <- props) {
+              xaprops.put(name, value)
+            }
+            tmp.setXaProperties(xaprops)
+            tmp.setUniqueResourceName(id + UUID.randomUUID().toString())
+            tmp.setTestQuery(testQuery.getOrElse(null))
+            tmp.setMinPoolSize(minPool)
+            tmp.setMaxPoolSize(maxPool)
+            tmp.setBorrowConnectionTimeout(idleTimeout)
+            tmp.setReapTimeout(reapTimeout)
+            tmp.setDefaultIsolationLevel(isolation)
             tmp
           } else {
             val tmp = new BasicDataSource()
             tmp.setDriverClassName(dsClass)
+            tmp.setMinIdle(minPool)
+            tmp.setMaxActive(maxPool)
+            tmp.setInitialSize(minPool)
+            tmp.setValidationQuery(testQuery.getOrElse(null))
+            tmp.setRemoveAbandonedTimeout(idleTimeout)
+            tmp.setDefaultTransactionIsolation(isolation)
+            for((name, value) <- props) {
+              tmp.addConnectionProperty(name, value)
+              if(name.toLowerCase == "url") tmp.setUrl(value)
+              else if(name.toLowerCase == "user") tmp.setUsername(value)
+              else if(name.toLowerCase == "password") tmp.setPassword(value)
+            }
             tmp
           }
-          ds.setMinIdle(minPool)
-          ds.setMaxActive(maxPool)
-          ds.setInitialSize(minPool)
-          ds.setValidationQuery(testQuery.getOrElse(null))
-          ds.setRemoveAbandonedTimeout(idleTimeout)
-          ds.setDefaultTransactionIsolation(isolation)
-          for((name, value) <- props) {
-            ds.addConnectionProperty(name, value)
-            if(name.toLowerCase == "url") ds.setUrl(value)
-            else if(name.toLowerCase == "user") ds.setUsername(value)
-            else if(name.toLowerCase == "password") ds.setPassword(value)
-  }
-  funcs += createDataSource(serviceName, ds)
-logger.info("Registered datasource {}", serviceName)
-                } catch {
-                  case e => logger.error("Cannot create pool", e)
+          funcs += createDataSource(serviceName, ds)
+          logger.info("Registered datasource {}", serviceName)
+        } catch {
+          case e => logger.error("Cannot create pool", e)
         }
-                }
-                for(f <- funcs) {
-                  try {
-                    val c = f.getConnection
-                    c.close
-                  } catch {
-                    case e => logger.error("Cannot create pool", e)
-                  }
-                  }
-                }
+      }
+      for(f <- funcs) {
+        try {
+          val c: { def close(): Unit } = f match {
+            case fd: DataSource => fd.getConnection
+            case fx: XADataSource => fx.getXAConnection
+            case _ => throw new RuntimeException("Unknown data source")
+          }
+          c.close
+        } catch {
+          case e => logger.error("Cannot create pool", e)
+        }
+      }
     }
+  }
 
   def shutdown(): Unit = {
     for((_, s) <- dataSources) {
       s.close
-  }
-  sr.foreach(_.unregister)
     }
-
-  def findTransactionManager() = {
-    import javax.transaction._
-    val bc = FrameworkUtil.getBundle(getClass).getBundleContext
-    val sr = bc.getServiceReference(classOf[TransactionManager])
-    bc.getService(sr)
+    sr.foreach(_.unregister)
   }
 
   def buildLocalDs() = {
@@ -102,18 +116,22 @@ logger.info("Registered datasource {}", serviceName)
     ds
   }
 
-  def createDataSource(name: String, ds: BasicDataSource) = {
-    val cds: javax.sql.DataSource = ds
-
-
+  def createDataSource(name: String, ds: CommonDataSource): CommonDataSource = {
     val props = new java.util.Hashtable[String, Object]()
 
     props.put("osgi.jndi.service.name", name)
 
     val bc = FrameworkUtil.getBundle(getClass).getBundleContext
-    sr += bc.registerService(classOf[javax.sql.DataSource], cds, props)
+    ds match {
+      case tmp: XADataSource => {
+        sr += bc.registerService(classOf[XADataSource], tmp, props)
+      }
+      case tmp: DataSource => {
+        sr += bc.registerService(classOf[DataSource], tmp, props)
+      }
+    }
 
-    cds
+    ds
   }
 
   }
