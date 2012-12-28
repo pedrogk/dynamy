@@ -88,7 +88,7 @@ class NamingService {
       for(f <- funcs) {
         val cl = Thread.currentThread.getContextClassLoader
         try {
-          Thread.currentThread.setContextClassLoader(ClassLoader.getSystemClassLoader)
+          Thread.currentThread.setContextClassLoader(getClass.getClassLoader)
           val c: { def close(): Unit } = f match {
             case fd: DataSource => fd.getConnection
             case fx: XADataSource => fx.getXAConnection
