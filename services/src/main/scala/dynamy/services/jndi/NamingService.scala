@@ -53,7 +53,7 @@ class NamingService {
             val xaprops = new Properties
             for((name, value) <- props) {
               logger.info("Trying to set up props {}={}", List(name, value).toArray: _*)
-              xaprops.put(name, value)
+              xaprops.setProperty(name, value)
             }
             tmp.setXaProperties(xaprops)
             tmp.setUniqueResourceName(id + UUID.randomUUID().toString())
