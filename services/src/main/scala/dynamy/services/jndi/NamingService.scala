@@ -1,8 +1,7 @@
 package dynamy.services.jndi
 
 import java.util.{List => _, _}
-
-import com.atomikos.jdbc._
+import javax.transaction.TransactionManager
 
 import org.apache.commons.dbcp._
 import org.apache.commons.dbcp.managed._
@@ -24,7 +23,6 @@ import javax.sql._
 
 class NamingService {
 
-  val defaultName = "org.apache.commons.dbcp:ManagedBasicDataSource=ManagedBasicDataSource"
   val dataSources = collection.mutable.Map[String, BasicDataSource]()
   val sr = collection.mutable.ArrayBuffer[ServiceRegistration[_]]()
 
@@ -46,21 +44,18 @@ class NamingService {
         try {
           val props = (for(p <- DataPoolProps if p.dsID is id) yield p.name ~ p.value).list
           val ds = if(xaPool) {
-            val tmp = new AtomikosDataSourceBean
-            tmp.setXaDataSourceClassName(dsClass)
-            val xaprops = new Properties
+            val tmp = new BasicManagedDataSource()
+            tmp.setXADataSource(dsClass)
+            tmp.setTransactionManager(findTM)
+            tmp.setMinIdle(minPool)
+            tmp.setMaxActive(maxPool)
+            tmp.setInitialSize(minPool)
+            tmp.setValidationQuery(testQuery.getOrElse(null))
+            tmp.setRemoveAbandonedTimeout(idleTimeout)
+            tmp.setDefaultTransactionIsolation(isolation)
             for((name, value) <- props) {
-              logger.info("Trying to set up props {}={}", List(name, value).toArray: _*)
-              xaprops.setProperty(name, value)
+              tmp.addConnectionProperty(name, value)
             }
-            tmp.setXaProperties(xaprops)
-            tmp.setUniqueResourceName(id + UUID.randomUUID().toString())
-            tmp.setTestQuery(testQuery.getOrElse(null))
-            tmp.setMinPoolSize(minPool)
-            tmp.setMaxPoolSize(maxPool)
-            tmp.setBorrowConnectionTimeout(idleTimeout)
-            tmp.setReapTimeout(reapTimeout)
-            tmp.setDefaultIsolationLevel(isolation)
             tmp
           } else {
             val tmp = new BasicDataSource()
@@ -109,6 +104,12 @@ class NamingService {
       s.close
     }
     sr.foreach(_.unregister)
+  }
+
+  def findTM = {
+    val bc = FrameworkUtil.getBundle(getClass).getBundleContext
+    val sr = bc.getServiceReference(classOf[TransactionManager])
+    bc.getService(sr)
   }
 
   def buildLocalDs() = {

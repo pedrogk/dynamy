@@ -67,16 +67,13 @@ mvn:org.hibernate/hibernate-validator/4.3.1.Final
 mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.aspectj/1.7.1_1
 mvn:org.ow2.asm/asm-all/4.1
 
-file:///data/repos/dynamy/transactions/target/scala-2.9.2/dynamy.transactions_2.9.2-1.0.0.jar
-
 #Blueprint
 mvn:org.apache.aries/org.apache.aries.util/1.0.0
 mvn:org.apache.aries.proxy/org.apache.aries.proxy/1.0.0!start
 mvn:org.apache.aries.jndi/org.apache.aries.jndi/1.0.0!start
-#mvn:org.apache.aries.transaction/org.apache.aries.transaction.manager/1.0.1!start
+mvn:org.apache.aries.transaction/org.apache.aries.transaction.manager/1.0.1!start
 mvn:org.apache.aries.quiesce/org.apache.aries.quiesce.api/1.0.0
 mvn:org.apache.aries.quiesce/org.apache.aries.quiesce.manager/1.0.0!start
-mvn:com.atomikos/transactions-osgi/3.8.0!start
 mvn:org.apache.aries.blueprint/org.apache.aries.blueprint/1.0.0!start
 mvn:org.apache.aries.transaction/org.apache.aries.transaction.blueprint/1.0.0!start
 mvn:org.apache.aries.jpa/org.apache.aries.jpa.api/1.0.0
