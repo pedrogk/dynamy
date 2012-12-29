@@ -7,7 +7,7 @@ import org.apache.commons.pool.impl._
 import org.apache.commons.dbcp._
 import org.apache.commons.dbcp.managed._
 
-import org.apache.commons.beanutils.PropertyUtils
+import org.apache.commons.beanutils._
 
 import org.osgi.framework._
 
@@ -102,8 +102,9 @@ class NamingService {
   def loadPool(dsClass: String, props: List[Tuple2[String, String]]) = {
     val clazz = Class.forName(dsClass, true, getClass.getClassLoader)
     val ds = clazz.newInstance.asInstanceOf[XADataSource]
+    val wrapped = new ConvertingWrapDynaBean(ds)
     for((name, value) <- props) {
-      PropertyUtils.setProperty(ds, name, value)
+      wrapped.set(name, value)
     }
     ds
   }
