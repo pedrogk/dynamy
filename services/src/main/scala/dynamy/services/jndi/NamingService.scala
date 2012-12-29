@@ -3,8 +3,11 @@ package dynamy.services.jndi
 import java.util.{List => _, _}
 import javax.transaction.TransactionManager
 
+import org.apache.commons.pool.impl._
 import org.apache.commons.dbcp._
 import org.apache.commons.dbcp.managed._
+
+import org.apache.commons.beanutils.PropertyUtils
 
 import org.osgi.framework._
 
@@ -44,19 +47,16 @@ class NamingService {
         try {
           val props = (for(p <- DataPoolProps if p.dsID is id) yield p.name ~ p.value).list
           val ds = if(xaPool) {
-            val tmp = new BasicManagedDataSource()
-            tmp.setXADataSource(dsClass)
-            tmp.setTransactionManager(findTM)
+            val rawDS = loadPool(dsClass, props)
+            val rawConnectionFactory = new DataSourceXAConnectionFactory(findTM, rawDS)
+            val tmp = new GenericObjectPool()
             tmp.setMinIdle(minPool)
             tmp.setMaxActive(maxPool)
-            tmp.setInitialSize(minPool)
-            tmp.setValidationQuery(testQuery.getOrElse(null))
-            tmp.setRemoveAbandonedTimeout(idleTimeout)
-            tmp.setDefaultTransactionIsolation(isolation)
-            for((name, value) <- props) {
-              tmp.addConnectionProperty(name, value)
-            }
-            tmp
+            val factory = new PoolableConnectionFactory(rawConnectionFactory, tmp, null, null, false, true)
+            factory.setValidationQuery(testQuery.getOrElse(null))
+            factory.setDefaultTransactionIsolation(isolation)
+            tmp.setFactory(factory)
+            new ManagedDataSource(tmp, rawConnectionFactory.getTransactionRegistry())
           } else {
             val tmp = new BasicDataSource()
             tmp.setDriverClassName(dsClass)
@@ -97,6 +97,15 @@ class NamingService {
         }
       }
     }
+  }
+
+  def loadPool(dsClass: String, props: List[Tuple2[String, String]]) = {
+    val clazz = Class.forName(dsClass, true, getClass.getClassLoader)
+    val ds = clazz.newInstance.asInstanceOf[XADataSource]
+    for((name, value) <- props) {
+      PropertyUtils.setProperty(ds, name, value)
+    }
+    ds
   }
 
   def shutdown(): Unit = {

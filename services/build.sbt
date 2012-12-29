@@ -14,6 +14,8 @@ libraryDependencies += "org.scalaquery" % "scalaquery_2.9.1-1" % "0.10.0-M1"
 
 libraryDependencies += "javax.transaction" % "jta" % "1.1"
 
+libraryDependencies += "org.apache.servicemix.bundles" % "org.apache.servicemix.bundles.commons-beanutils" % "1.8.3_1"
+
 version := "1.0.0"
 
 osgiSettings
