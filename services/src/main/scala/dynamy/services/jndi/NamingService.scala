@@ -61,7 +61,7 @@ class NamingService {
             */
             val tmp = new BasicManagedDataSource()
             tmp.setTransactionManager(findTM)
-            tmp.setXADataSource(dsClass)
+            tmp.setXaDataSourceInstance(loadPool(dsClass, props))
             tmp.setMinIdle(minPool)
             tmp.setMaxActive(maxPool)
             tmp.setInitialSize(minPool)
