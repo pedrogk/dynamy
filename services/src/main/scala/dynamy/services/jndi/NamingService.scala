@@ -47,6 +47,23 @@ class NamingService {
         try {
           val props = (for(p <- DataPoolProps if p.dsID is id) yield p.name ~ p.value).list
           val ds = if(xaPool) {
+            val tmp = new BasicManagedDataSource()
+            tmp.setTransactionManager(findTM)
+            tmp.setXADataSource(dsClass)
+            tmp.setMinIdle(minPool)
+            tmp.setMaxActive(maxPool)
+            tmp.setInitialSize(minPool)
+            tmp.setValidationQuery(testQuery.getOrElse(null))
+            tmp.setRemoveAbandonedTimeout(idleTimeout)
+            tmp.setDefaultTransactionIsolation(isolation)
+            for((name, value) <- props) {
+              tmp.addConnectionProperty(name, value)
+              if(name.toLowerCase == "url") tmp.setUrl(value)
+              else if(name.toLowerCase == "user") tmp.setUsername(value)
+              else if(name.toLowerCase == "password") tmp.setPassword(value)
+            }
+            tmp
+            /*
             val rawDS = loadPool(dsClass, props)
             val rawConnectionFactory = new DataSourceXAConnectionFactory(findTM, rawDS)
             val tmp = new GenericObjectPool()
@@ -57,6 +74,7 @@ class NamingService {
             factory.setDefaultTransactionIsolation(isolation)
             tmp.setFactory(factory)
             new ManagedDataSource(tmp, rawConnectionFactory.getTransactionRegistry())
+            */
           } else {
             val tmp = new BasicDataSource()
             tmp.setDriverClassName(dsClass)
