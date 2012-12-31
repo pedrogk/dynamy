@@ -24,7 +24,7 @@ OsgiKeys.dynamicImportPackage := Seq("*")
 
 OsgiKeys.importPackage := Seq("*")
 
-OsgiKeys.privatePackage := Seq("dynamy.services.jndi")
+OsgiKeys.privatePackage := Seq("dynamy.services.jndi", "dynamy.services.pool", "dynamy.services.transactions")
 
 publishTo := Some(Resolver.file("file",  new File("/data/repos/dynamy-bundles")))
 
