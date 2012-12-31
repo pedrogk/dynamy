@@ -60,10 +60,6 @@ class TransactionAwareDS extends BoneCPDataSource {
 
   def currentTransaction = {
     var transaction = getTransactionManager.getTransaction
-    if(transaction != null) {
-      logger.info("Found a transaction with these data " + transaction + " " + transaction.getStatus + " " +
-        isTransactionActive(transaction))
-    }
     if(!isTransactionActive(transaction)) {
       transaction = null
     }
@@ -113,23 +109,29 @@ class TransactionAwareDS extends BoneCPDataSource {
   }
 
   private def findFreeConnection(username: String, password: String): Connection = {
-    var conn = super.getConnection(username, password)
-    while(!isFreeConnection(conn)) {
-      //Release the last connection
-      conn.close()
+    var conn1 = super.getConnection(username, password)
+    var conn: Connection = null
+    while(!isFreeConnection(conn1)) {
       //Get a new connection
       conn = super.getConnection(username, password)
+      //Release the last connection
+      conn1.close()
+      //Interchange
+      conn1 = conn
     }
     conn
   }
 
   private def findFreeConnection(): Connection = {
-    var conn = super.getConnection()
-    while(!isFreeConnection(conn)) {
-      //Release the last connection
-      conn.close()
+    var conn1 = super.getConnection()
+    var conn: Connection = null
+    while(!isFreeConnection(conn1)) {
       //Get a new connection
       conn = super.getConnection()
+      //Release the last connection
+      conn1.close()
+      //Interchange
+      conn1 = conn
     }
     conn
   }
@@ -139,14 +141,15 @@ class TransactionAwareDS extends BoneCPDataSource {
     val transaction = currentTransaction
     if(transaction == null) //There's no transaction just return any connection
       findFreeConnection()
-
     else {
       val currentContext = transactionMemory.get(transaction)
       //There's no transaction context for now
       if(currentContext == null) {
+        val conn = findFreeConnection()
         transaction.synchronized {
-          val conn = findFreeConnection()
-          registerConnection(conn, transaction)
+          if(!transactionMemory.containsKey(transaction)) {
+            registerConnection(conn, transaction)
+          }
           new TransactionConnectionWrapper(conn, connectionMemory)
         }
       } else {
