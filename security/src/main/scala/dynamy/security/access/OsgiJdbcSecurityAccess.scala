@@ -167,7 +167,7 @@ class OsgiJdbcSecurityAccess extends DynamySecurityAccess {
     ds.setUsername(username)
     ds.setPassword(password)
     ds.setDriverClass(driver)
-    ds.setClassLoader(getClass.getClassLoader)
+    ds.setClassLoader(classOf[BoneCPDataSource].getClassLoader)
 
     OsgiJdbcSecurityAccess.dataSources.put("dynamy/security", ds)
 
