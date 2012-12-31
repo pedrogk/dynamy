@@ -126,6 +126,7 @@ class TransactionAwareDS extends BoneCPDataSource {
     var conn1 = super.getConnection()
     var conn: Connection = null
     while(!isFreeConnection(conn1)) {
+      logger.info("Cannot find free connection")
       //Get a new connection
       conn = super.getConnection()
       //Release the last connection
