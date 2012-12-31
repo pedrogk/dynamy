@@ -141,7 +141,7 @@ class TransactionAwareDS extends BoneCPDataSource {
       } else {
         //Return the same connection the transaction is using
         val TransactionContext(connection, _) = currentContext
-        connection
+        new TransactionConnectionWrapper(connection, connectionMemory)
       }
     }
   }
@@ -162,7 +162,7 @@ class TransactionAwareDS extends BoneCPDataSource {
       } else {
         //Return the same connection the transaction is using
         val TransactionContext(connection, _) = currentContext
-        connection
+        new TransactionConnectionWrapper(connection, connectionMemory)
       }
     }
   }
