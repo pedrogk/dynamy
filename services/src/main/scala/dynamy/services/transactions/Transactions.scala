@@ -60,6 +60,10 @@ class TransactionAwareDS extends BoneCPDataSource {
 
   def currentTransaction = {
     var transaction = getTransactionManager.getTransaction
+    if(transaction != null) {
+      logger.info("Found a transaction with these data " + transaction + " " + transaction.getStatus + " " +
+        isTransactionActive(transaction))
+    }
     if(!isTransactionActive(transaction)) {
       transaction = null
     }
