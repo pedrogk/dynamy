@@ -143,7 +143,12 @@ case class XAConnectionWrapper(conn: XAConnection) extends Connection {
     plainConn.setHoldability(holdability)
   
   override def setReadOnly(readOnly: Boolean) =
-    plainConn.setReadOnly(readOnly)
+    try {
+      plainConn.setReadOnly(readOnly)
+    } catch {
+      case e => {
+      }
+    }
   
   override def setSavepoint() =
     plainConn.setSavepoint()
@@ -198,5 +203,6 @@ class XADataSourceWrapper(ds: XADataSource) extends DataSource {
   override def isWrapperFor(iface: Class[_]) = false
 
   override def unwrap[T](iface: Class[T]): T = null.asInstanceOf[T]
+
 
 }

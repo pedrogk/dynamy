@@ -29,8 +29,6 @@ class TransactionAwareDS extends BoneCPDataSource {
   private val transactionMemory = new ConcurrentHashMap[Transaction, TransactionContext]()
   private val connectionMemory = new ConcurrentHashMap[Connection, TransactionContext]()
 
-  override def getDefaultReadOnly(): java.lang.Boolean = null.asInstanceOf[Boolean]
-
   private def getTransactionManager() = {
     if(transactionManager == null) {
       transactionManagerLock.lock()
@@ -44,7 +42,7 @@ class TransactionAwareDS extends BoneCPDataSource {
     }
     transactionManager
   }
-
+  
   override def close() = {
     if(transactionManagerRef != null) {
       transactionManagerLock.lock()
