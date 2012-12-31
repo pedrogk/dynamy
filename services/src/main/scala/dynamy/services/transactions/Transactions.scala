@@ -13,12 +13,15 @@ import java.util.concurrent._
 import java.util.{Properties, Map}
 
 import org.osgi.framework._
+import org.slf4j._
 
 import com.jolbox.bonecp._
 
 case class TransactionContext(currentConnection: Connection, transaction: Transaction)
 
 class TransactionAwareDS extends BoneCPDataSource {
+
+  private val logger = LoggerFactory.getLogger(classOf[TransactionAwareDS])
 
   private var transactionManager: TransactionManager = _
   private val transactionManagerLock = new ReentrantLock
@@ -128,9 +131,11 @@ class TransactionAwareDS extends BoneCPDataSource {
   }
 
   override def getConnection() = {
+    logger.info("SOMEONE ASKED FOR A CONNECTION")
     val transaction = currentTransaction
     if(transaction == null) //There's no transaction just return any connection
       findFreeConnection()
+
     else {
       val currentContext = transactionMemory.get(transaction)
       //There's no transaction context for now
