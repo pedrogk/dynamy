@@ -119,7 +119,7 @@ class TransactionAwareDS extends BoneCPDataSource {
       //Interchange
       conn1 = conn
     }
-    conn
+    conn1
   }
 
   private def findFreeConnection(): Connection = {
@@ -133,7 +133,7 @@ class TransactionAwareDS extends BoneCPDataSource {
       //Interchange
       conn1 = conn
     }
-    conn
+    conn1
   }
 
   override def getConnection() = {
