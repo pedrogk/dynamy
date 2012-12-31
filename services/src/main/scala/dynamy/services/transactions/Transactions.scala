@@ -76,6 +76,8 @@ class TransactionAwareDS extends BoneCPDataSource {
 
   private def registerConnection(c: Connection, t: Transaction) = {
     val tc = TransactionContext(c, t)
+    transactionMemory.put(t, tc)
+    connectionMemory.put(c, tc)
     c match {
       case bc: ConnectionHandle => {
         bc.getInternalConnection match {
@@ -95,8 +97,6 @@ class TransactionAwareDS extends BoneCPDataSource {
         }
       }
     }
-    transactionMemory.put(t, tc)
-    connectionMemory.put(c, tc)
   }
   
   private def isFreeConnection(c: Connection) = {
