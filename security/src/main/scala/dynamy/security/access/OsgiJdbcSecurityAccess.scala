@@ -10,10 +10,10 @@ import org.apache.shiro.authz.permission.WildcardPermission
 import org.apache.shiro.authz.Permission
 import org.slf4j.LoggerFactory
 
-import org.apache.commons.dbcp._
+import com.jolbox.bonecp._
 
 object OsgiJdbcSecurityAccess {
-  private lazy val dataSources = new ConcurrentHashMap[String, BasicDataSource]()
+  private lazy val dataSources = new ConcurrentHashMap[String, BoneCPDataSource]()
 
   def stop() = {
     for (value <- dataSources.values()) {
@@ -161,12 +161,12 @@ class OsgiJdbcSecurityAccess extends DynamySecurityAccess {
   }
 
   private def buildDataSource() = {
-    val ds = new BasicDataSource
+    val ds = new BoneCPDataSource
     
-    ds.setUrl(jdbcUri)
+    ds.setJdbcUrl(jdbcUri)
     ds.setUsername(username)
     ds.setPassword(password)
-    ds.setDriverClassName(driver)
+    ds.setDriverClass(driver)
 
     OsgiJdbcSecurityAccess.dataSources.put("dynamy/security", ds)
 

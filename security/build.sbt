@@ -12,7 +12,7 @@ libraryDependencies += "org.bouncycastle" % "bcpkix-jdk15on" % "1.47" % "provide
 
 libraryDependencies += "org.apache.shiro" % "shiro-core" % "1.2.1" % "provided"
 
-libraryDependencies += "org.apache.servicemix.bundles" % "org.apache.servicemix.bundles.commons-dbcp" % "1.4_3"
+libraryDependencies += "com.jolbox" % "bonecp" % "0.8.0-rc1"
 
 version := "1.0.0"
 
