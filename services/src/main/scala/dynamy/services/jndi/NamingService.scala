@@ -51,11 +51,17 @@ class NamingService {
             val dsWrapper = new XADataSourceWrapper(rawDS)
             val boneDS = new TransactionAwareDS()
             boneDS.setDatasourceBean(dsWrapper)
+            boneDS.setMaxConnectionsPerPartition(maxPool)
+            boneDS.setMinConnectionsPerPartition(minPool)
+            boneDS.setConnectionTimeoutInMs(idleTimeout * 1000)
             boneDS
           } else {
             val ds = new BoneCPDataSource()
             ds.setDriverClass(dsClass)
             ds.setClassLoader(getClass.getClassLoader)
+            ds.setMaxConnectionsPerPartition(maxPool)
+            ds.setMinConnectionsPerPartition(minPool)
+            ds.setConnectionTimeoutInMs(idleTimeout * 1000)
             for((name, value) <- props) {
               if(name.toLowerCase == "url") ds.setJdbcUrl(value)
               else if(name.toLowerCase == "user") ds.setUsername(value)
