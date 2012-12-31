@@ -87,6 +87,7 @@ class TransactionAwareDS extends BoneCPDataSource {
               }
               override def afterCompletion(status: Int) = {
                 //handle someway
+                logger.info("Transtaction ended {} {}", List(c, t).toArray: _*)
                 terminateTransaction(c, t)
               }
             })
@@ -126,7 +127,6 @@ class TransactionAwareDS extends BoneCPDataSource {
     var conn1 = super.getConnection()
     var conn: Connection = null
     while(!isFreeConnection(conn1)) {
-      logger.info("Cannot find free connection")
       //Get a new connection
       conn = super.getConnection()
       //Release the last connection
@@ -138,7 +138,6 @@ class TransactionAwareDS extends BoneCPDataSource {
   }
 
   override def getConnection() = {
-    logger.info("SOMEONE ASKED FOR A CONNECTION")
     val transaction = currentTransaction
     if(transaction == null) //There's no transaction just return any connection
       findFreeConnection()

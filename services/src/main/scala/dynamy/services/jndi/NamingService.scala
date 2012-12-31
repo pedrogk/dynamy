@@ -53,6 +53,7 @@ class NamingService {
             boneDS.setDatasourceBean(dsWrapper)
             boneDS.setMaxConnectionsPerPartition(maxPool)
             boneDS.setMinConnectionsPerPartition(minPool)
+            boneDS.setPoolStrategy("CACHED")
             boneDS.setConnectionTimeoutInMs(idleTimeout * 1000)
             boneDS
           } else {
@@ -61,6 +62,7 @@ class NamingService {
             ds.setClassLoader(getClass.getClassLoader)
             ds.setMaxConnectionsPerPartition(maxPool)
             ds.setMinConnectionsPerPartition(minPool)
+            ds.setPoolStrategy("CACHED")
             ds.setConnectionTimeoutInMs(idleTimeout * 1000)
             for((name, value) <- props) {
               if(name.toLowerCase == "url") ds.setJdbcUrl(value)
