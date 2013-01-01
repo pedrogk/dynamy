@@ -87,7 +87,6 @@ class TransactionAwareDS extends BoneCPDataSource {
               }
               override def afterCompletion(status: Int) = {
                 //handle someway
-                logger.info("Transtaction ended {} {}", List(c, t).toArray: _*)
                 terminateTransaction(c, t)
               }
             })
