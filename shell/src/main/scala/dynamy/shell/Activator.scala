@@ -2,6 +2,8 @@ package dynamy.shell.runtime
 
 import org.osgi.framework.BundleActivator
 import org.osgi.framework.BundleContext
+import org.bouncycastle.jce.provider.BouncyCastleProvider
+import java.security.Security
 
 class Activator extends BundleActivator {
   
@@ -21,6 +23,7 @@ class Activator extends BundleActivator {
   private lazy val shells = List(systemShell, dynamyShell, scriptShell) 
 
   override def start(context: BundleContext) = {
+    Security.addProvider(new BouncyCastleProvider())
     for(shell <- shells) shell.start()
   }
 

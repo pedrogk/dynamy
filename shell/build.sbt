@@ -18,7 +18,9 @@ libraryDependencies += "org.apache.sshd" % "sshd-core" % "0.8.0"
 
 libraryDependencies += "jline" % "jline" % "2.9"
 
-libraryDependencies += "org.bouncycastle" % "bcpkix-jdk15on" % "1.47"
+libraryDependencies += "org.bouncycastle" % "bcprov-jdk15on" % "1.47" % "provided"
+
+libraryDependencies += "org.bouncycastle" % "bcpkix-jdk15on" % "1.47" % "provided"
 
 libraryDependencies += "dynamy.util" %% "dynamy.util" % "1.0.0"
 
