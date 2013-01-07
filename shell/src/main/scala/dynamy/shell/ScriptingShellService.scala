@@ -27,7 +27,7 @@ class ScriptingShellService(var port: Int, var keysPath: String) extends ShellSe
     this.keysPath = keysPath
     sshd.setPort(port)
     sshd.setKeyPairProvider(new KeyGenerator(keysPath))
-    sshd.getProperties().put("idle-timeout", -1)
+    sshd.getProperties().put("idle-timeout", "-1")
   }
 
   def start() = sshd.start()

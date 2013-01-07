@@ -27,7 +27,7 @@ class DynamyShellService(var port: Int, var keysPath: String) extends ShellServi
     this.keysPath = keysPath
     sshd.setPort(port)
     sshd.setKeyPairProvider(new KeyGenerator(keysPath))
-    sshd.getProperties().put("idle-timeout", -1)
+    sshd.getProperties().put("idle-timeout", "-1")
   }
 
   def start() = sshd.start()
