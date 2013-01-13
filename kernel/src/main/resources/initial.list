@@ -16,6 +16,7 @@ mvn:org.yaml/snakeyaml/1.11
 mvn:commons-io/commons-io/2.4
 mvn:org.apache.commons/commons-lang3/3.1
 https://github.com/just-cloud/obr/raw/master/dozer-osgi-5.5.0-SNAPSHOT.jar
+https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/jmxutils-1.13.jar
 
 #Logging
 mvn:org.slf4j/slf4j-api/1.7.2
