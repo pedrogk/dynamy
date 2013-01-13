@@ -10,6 +10,9 @@ mvn:org.apache.felix/org.apache.felix.configadmin/1.6.0!start
 #Utils
 mvn:com.google.guava/guava/13.0.1
 mvn:com.google.code.gson/gson/2.2.2
+mvn:com.google.inject/guice/3.0
+mvn:com.google.inject.extensions/guice-multibindings/3.0
+mvn:org.yaml/snakeyaml/1.11
 mvn:commons-io/commons-io/2.4
 mvn:org.apache.commons/commons-lang3/3.1
 https://github.com/just-cloud/obr/raw/master/dozer-osgi-5.5.0-SNAPSHOT.jar
