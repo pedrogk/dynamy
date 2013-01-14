@@ -16,6 +16,8 @@ libraryDependencies += "javax.transaction" % "jta" % "1.1"
 
 libraryDependencies += "org.apache.servicemix.bundles" % "org.apache.servicemix.bundles.commons-beanutils" % "1.8.3_1"
 
+libraryDependencies += "dynamy.config" %% "dynamy.config" % "1.0.0"
+
 version := "1.0.0"
 
 osgiSettings

@@ -1,5 +1,6 @@
 package dynamy.services.jndi
 
+import dynamy.config._
 import dynamy.services.pool._
 import dynamy.services.transactions._
 import  com.jolbox.bonecp._
@@ -38,62 +39,58 @@ class NamingService {
   }
 
   def loadDS(ds: DataSource) = {
-    import org.scalaquery.session._
-    val db = Database.forDataSource(ds)
-    db withSession {
-      val pools = for(d <- DataPool) yield d
-      val funcs = scala.collection.mutable.ArrayBuffer[DataSource]()
-      for((id, name, serviceName, dsClass, testQuery, xaPool, minPool, maxPool, idleTimeout, reapTimeout, isolation) <- pools.list) {
-        try {
-          val props = (for(p <- DataPoolProps if p.dsID is id) yield p.name ~ p.value).list
-          val ds = if(xaPool) {
-            val rawDS = loadPool(dsClass, props)
-            val dsWrapper = new XADataSourceWrapper(rawDS)
-            val boneDS = new TransactionAwareDS()
-            boneDS.setDatasourceBean(dsWrapper)
-            boneDS.setMaxConnectionsPerPartition(maxPool)
-            boneDS.setMinConnectionsPerPartition(minPool)
-            boneDS
-          } else {
-            val ds = new BoneCPDataSource()
-            ds.setDriverClass(dsClass)
-            ds.setClassLoader(getClass.getClassLoader)
-            ds.setMaxConnectionsPerPartition(maxPool)
-            ds.setMinConnectionsPerPartition(minPool)
-            ds.setConnectionTimeoutInMs(idleTimeout * 1000)
-            for((name, value) <- props) {
-              if(name.toLowerCase == "url") ds.setJdbcUrl(value)
-              else if(name.toLowerCase == "user") ds.setUsername(value)
-              else if(name.toLowerCase == "password") ds.setPassword(value)
-            }
-            ds
-          }
-          funcs += createDataSource(serviceName, ds)
-          logger.info("Registered datasource {}", serviceName)
-        } catch {
-          case e => logger.error("Cannot create pool", e)
+    val data = getConfigService.getConfig.getDb
+    val funcs = scala.collection.mutable.ArrayBuffer[DataSource]()
+    for(e <- data.entrySet) {
+      val serviceName = e.getKey
+      val pool = e.getValue
+      try {
+        val xaPool = pool.xaPool
+        val ds     = if(xaPool) {
+          val rawDS = loadPool(pool)
+          val dsWrapper = new XADataSourceWrapper(rawDS)
+          val boneDS = new TransactionAwareDS()
+          boneDS.setDatasourceBean(dsWrapper)
+          boneDS.setMaxConnectionsPerPartition(pool.maxConnectionsPerPartition)
+          boneDS.setMinConnectionsPerPartition(pool.minConnectionsPerPartition)
+          boneDS
+        } else {
+          val ds = new BoneCPDataSource()
+          ds.setDriverClass(pool.driverClass)
+          ds.setClassLoader(getClass.getClassLoader)
+          ds.setMaxConnectionsPerPartition(pool.maxConnectionsPerPartition)
+          ds.setMinConnectionsPerPartition(pool.minConnectionsPerPartition)
+          ds.setConnectionTimeoutInMs(pool.connectionTimeoutInMs)
+          ds.setJdbcUrl(pool.jdbcUrl)
+          ds.setUsername(pool.username)
+          ds.setPassword(pool.password)
+          ds
         }
+        funcs += createDataSource(serviceName, ds)
+        logger.info("Registered datasource {}", serviceName)
+      } catch {
+        case e => logger.error("Cannot create pool", e)
       }
-      for(f <- funcs) {
-        val cl = Thread.currentThread.getContextClassLoader
-        try {
-          Thread.currentThread.setContextClassLoader(getClass.getClassLoader)
-          val c = f.getConnection
-          c.close
-        } catch {
-          case e => logger.error("Cannot create pool", e)
-        } finally {
-          Thread.currentThread.setContextClassLoader(cl)
-        }
+    }
+    for(f <- funcs) {
+      val cl = Thread.currentThread.getContextClassLoader
+      try {
+        Thread.currentThread.setContextClassLoader(getClass.getClassLoader)
+        val c = f.getConnection
+        c.close
+      } catch {
+        case e => logger.error("Cannot create pool", e)
+      } finally {
+        Thread.currentThread.setContextClassLoader(cl)
       }
     }
   }
 
-  def loadPool(dsClass: String, props: List[Tuple2[String, String]]) = {
-    val clazz = Class.forName(dsClass, true, getClass.getClassLoader)
+  def loadPool(pool: DBPoolConfig) = {
+    val clazz = Class.forName(pool.driverClass, true, getClass.getClassLoader)
     val ds = clazz.newInstance.asInstanceOf[XADataSource]
     val wrapped = new ConvertingWrapDynaBean(ds)
-    for((name, value) <- props) {
+    for((name, value) <- pool.getProperties) {
       wrapped.set(name, value)
     }
     ds
@@ -109,6 +106,14 @@ class NamingService {
   def findTM = {
     val bc = FrameworkUtil.getBundle(getClass).getBundleContext
     val sr = bc.getServiceReference(classOf[TransactionManager])
+    bc.getService(sr)
+  }
+
+  def getConfigService = { 
+    import org.osgi.framework._
+    val bc = FrameworkUtil.getBundle(getClass).getBundleContext
+    var sr = bc.getServiceReference(classOf[DynamyConfigService])
+    while(sr == null) sr = bc.getServiceReference(classOf[DynamyConfigService])
     bc.getService(sr)
   }
 
@@ -140,27 +145,4 @@ class NamingService {
     ds
   }
 
-  }
-
-object DataPool extends Table[(Int, String, String, String, Option[String], Boolean, Int, Int, Int, Int, Int)]("JDBC_DS") {
-  def id = column[Int]("ID", O NotNull)
-  def name = column[String]("NAME")
-  def serviceName = column[String]("SERVICE_NAME")
-  def dsClass     = column[String]("DS_CLASS")
-  def testQuery   = column[Option[String]]("TEST_QUERY")
-  def xaPool      = column[Boolean]("XA_POOL")
-  def minPool     = column[Int]("MIN_POOL")
-  def maxPool     = column[Int]("MAX_POOL")
-  def idleTimeout = column[Int]("IDLE_TIMEOUT")
-  def reapTimeout = column[Int]("REAP_TIMEOUT")
-  def isolation   = column[Int]("ISOLATION")
-  def * = id ~ name ~ serviceName ~ dsClass ~ testQuery ~ xaPool ~ minPool ~ maxPool ~ idleTimeout ~ reapTimeout ~ isolation
-}
-
-object DataPoolProps extends Table[(Int, Int, String, String)]("JDBC_PROPS") {
-  def id    = column[Int]("ID", O NotNull)
-  def dsID  = column[Int]("ID_DS", O NotNull)
-  def name  = column[String]("PROP_NAME")
-  def value = column[String]("PROP_VALUE")
-  def * = id ~ dsID ~ name ~ value
 }

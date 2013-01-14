@@ -1,0 +1,5 @@
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
+  <bean id="configService" class="dynamy.config.ServerConfigService" init-method="loadConfig" />
+
+  <service id="configExpotService" ref="configService" interface="dynamy.config.DynamyConfigService" />
+</blueprint>

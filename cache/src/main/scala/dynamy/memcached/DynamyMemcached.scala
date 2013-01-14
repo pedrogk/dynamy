@@ -1,6 +1,7 @@
 package dynamy.cache.xmemcached
 
 import dynamy.cache._
+import dynamy.config._
 import com.google.gson._
 
 import scala.collection.JavaConversions._
@@ -9,7 +10,7 @@ import net.rubyeye.xmemcached._
 import net.rubyeye.xmemcached.command._
 import net.rubyeye.xmemcached.utils._
 
-class DynamyMemcache(val client: MemcachedClient) extends DynamyCache with LoaderWrapper {
+class DynamyMemcache(val client: MemcachedClient) extends DynamyCache {
   override def get[T](keys: Set[String]): Map[String, T] = {
     val colls: java.util.Collection[String] = keys
     val vals: java.util.Map[String, T] = client.get(colls)
@@ -31,14 +32,24 @@ class DynamyMemcache(val client: MemcachedClient) extends DynamyCache with Loade
 }
 
 class DynamyMemcacheManager(val configurationFile: String) extends DynamyCacheService {
+  lazy val configService = getConfigService
+  def getConfigService = {
+    import org.osgi.framework._
+    val bc = FrameworkUtil.getBundle(getClass).getBundleContext
+    var sr = bc.getServiceReference(classOf[DynamyConfigService])
+    while(sr == null) sr = bc.getServiceReference(classOf[DynamyConfigService])
+    bc.getService(sr)
+  }
   override def build(name: String): DynamyCache = {
-	val parser = new JsonParser()
-  	val configurationContents = io.Source.fromFile(configurationFile).mkString
-	val configuration = parser.parse(configurationContents).getAsJsonObject
-        val builder = new XMemcachedClientBuilder(AddrUtil.getAddresses(configuration.get("connection").getAsString))
-        builder.setCommandFactory(new BinaryCommandFactory())
-        val client = builder.build()
-        client.setName(name)
-        new DynamyMemcache(client)
+    val serverConfig = configService.getConfig
+    val cacheConfig = if(serverConfig.getCache().contains(name))
+                        serverConfig.getCache.get(name)
+                      else
+                        serverConfig.getCache.get("default")
+    val builder = new XMemcachedClientBuilder(AddrUtil.getAddresses(cacheConfig.addresses))
+    builder.setCommandFactory(new BinaryCommandFactory())
+    val client = builder.build()
+    client.setName(name)
+    new DynamyMemcache(client) with LoaderWrapper
   }
 }

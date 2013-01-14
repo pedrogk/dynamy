@@ -123,7 +123,7 @@ mvn:org.codehaus.groovy/groovy-jsr223/2.0.6
 #Dynamy
 https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/dynamy.util_2.9.2-1.0.0.jar
 https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/dynamy.log_2.9.2-1.0.0.jar!start
-file:///home/iamedu/Development/just-cloud/dynamy/config/target/scala-2.9.2/dynamy.config_2.9.2-1.0.0.jar!start
+https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/dynamy.config_2.9.2-1.0.0.jar!start
 https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/dynamy.cache_2.9.2-1.0.0.jar!start
 https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/dynamy.security_2.9.2-1.0.0.jar!start
 https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/dynamy.shell_2.9.2-1.0.0.jar!start

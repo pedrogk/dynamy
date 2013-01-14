@@ -1,0 +1,15 @@
+db:
+  # Example DS
+  # dynamyServices:
+  #   jdbcUrl:     jdbc:h2:${prog.home}/storage/users/db;AUTO_SERVER=TRUE
+  #   username:    sa
+  #   password:    
+  #   driverClass: org.h2.Driver
+  dynamyServices:
+    jdbcUrl:     jdbc:h2:${prog.home}/storage/users/db;AUTO_SERVER=TRUE
+    username:    sa
+    password:    
+    driverClass: org.h2.Driver
+cache:
+  default:
+    addresses: "localhost:1521"

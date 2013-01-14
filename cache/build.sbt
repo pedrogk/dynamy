@@ -16,6 +16,8 @@ libraryDependencies += "com.google.code.gson" % "gson" % "2.2.2"
 
 libraryDependencies += "dynamy.util" %% "dynamy.util" % "1.0.0"
 
+libraryDependencies += "dynamy.config" %% "dynamy.config" % "1.0.0"     
+
 version := "1.0.0"
 
 osgiSettings
