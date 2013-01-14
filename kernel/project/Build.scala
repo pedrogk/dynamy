@@ -20,7 +20,7 @@ object Build extends sbt.Build {
         resolvers := dynamyResolvers,
         libraryDependencies ++= commonDeps,
         packMain := Map("dynamy" -> "dynamy.Main"),
-        publishTo := Some(Resolver.file("file",  new File("/data/repos/dynamy-bundles")))
+        publishTo := Some(Resolver.file("file",  new File("/home/iamedu/Development/just-cloud/dynamy-bundles")))
       )
   )
   

@@ -12,5 +12,5 @@ OsgiKeys.privatePackage := Seq("dynamy.bonecp")
 
 OsgiKeys.fragmentHost := Some("com.jolbox.bonecp")
 
-publishTo := Some(Resolver.file("file",  new File("/data/repos/dynamy-bundles")))
+publishTo := Some(Resolver.file("file",  new File("/home/iamedu/Development/just-cloud/dynamy-bundles")))
 

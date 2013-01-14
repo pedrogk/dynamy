@@ -38,5 +38,5 @@ OsgiKeys.privatePackage := Seq("dynamy.commands.*")
 
 OsgiKeys.bundleActivator := Option("dynamy.commands.Activator")
 
-publishTo := Some(Resolver.file("file",  new File("/data/repos/dynamy-bundles")))
+publishTo := Some(Resolver.file("file",  new File("/home/iamedu/Development/just-cloud/dynamy-bundles")))
 

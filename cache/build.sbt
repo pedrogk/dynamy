@@ -26,6 +26,6 @@ OsgiKeys.bundleActivator := Option("dynamy.cache.xmemcached.Activator")
 
 OsgiKeys.privatePackage := Seq("dynamy.cache.xmemcached.*")
 
-publishTo := Some(Resolver.file("file",  new File("/data/repos/dynamy-bundles")))
+publishTo := Some(Resolver.file("file",  new File("/home/iamedu/Development/just-cloud/dynamy-bundles")))
 
 

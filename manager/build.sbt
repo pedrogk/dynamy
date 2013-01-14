@@ -26,6 +26,6 @@ OsgiKeys.embeddedJars <<= Keys.externalDependencyClasspath in Compile map {
   deps => deps filter (d => d.data.getName startsWith "circumflex") map (d => d.data)
 }
 
-publishTo := Some(Resolver.file("file",  new File("/data/repos/dynamy-bundles")))
+publishTo := Some(Resolver.file("file",  new File("/home/iamedu/Development/just-cloud/dynamy-bundles")))
 
 

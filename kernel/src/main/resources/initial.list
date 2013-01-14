@@ -12,11 +12,11 @@ mvn:com.google.guava/guava/13.0.1
 mvn:com.google.code.gson/gson/2.2.2
 mvn:com.google.inject/guice/3.0
 mvn:com.google.inject.extensions/guice-multibindings/3.0
-mvn:org.yaml/snakeyaml/1.11
+https://github.com/just-cloud/dynamy/raw/master/bundles/snakeyaml-1.11.jar
 mvn:commons-io/commons-io/2.4
 mvn:org.apache.commons/commons-lang3/3.1
 https://github.com/just-cloud/obr/raw/master/dozer-osgi-5.5.0-SNAPSHOT.jar
-https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/jmxutils-1.13.jar
+https://github.com/just-cloud/dynamy/raw/master/bundles/jmxutils-1.13.jar
 
 #Logging
 mvn:org.slf4j/slf4j-api/1.7.2
@@ -123,6 +123,7 @@ mvn:org.codehaus.groovy/groovy-jsr223/2.0.6
 #Dynamy
 https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/dynamy.util_2.9.2-1.0.0.jar
 https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/dynamy.log_2.9.2-1.0.0.jar!start
+file:///home/iamedu/Development/just-cloud/dynamy/config/target/scala-2.9.2/dynamy.config_2.9.2-1.0.0.jar!start
 https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/dynamy.cache_2.9.2-1.0.0.jar!start
 https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/dynamy.security_2.9.2-1.0.0.jar!start
 https://github.com/just-cloud/dynamy/raw/master/bundles/dynamy/dynamy.shell_2.9.2-1.0.0.jar!start
