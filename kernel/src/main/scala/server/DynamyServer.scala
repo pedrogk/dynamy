@@ -2,6 +2,8 @@ package dynamy.server
 
 import java.io.FileInputStream
 
+import java.lang.management._
+import javax.management.remote._
 import java.util.{Map => _, _}
 import java.util.logging._
 
@@ -30,9 +32,23 @@ class DynamyServer(serverHome: String) {
       configuration += (k.toString -> v.toString)
       if(k.toString.startsWith("dynamy") || k.toString.startsWith("com.atomikos"))
         System.setProperty(k.toString, v.toString)
-}
-configuration
     }
+    configuration
+  }
+
+  def loadJMX() = {
+    try {
+      val host = configuration.get("dynamy.jmxmp.host").get
+      val port = configuration.get("dynamy.jmxmp.port").get.toInt
+      val conn = JMXConnectorServerFactory.newJMXConnectorServer(
+        new JMXServiceURL("jmxmp", host, port),
+        null,
+        ManagementFactory.getPlatformMBeanServer())
+      conn.start
+    } catch {
+      case e: Throwable => logger.log(Level.SEVERE, "Cannot start JMX", e)
+    }
+  }
 
   def loadDrivers() = {
     import java.util.ServiceLoader
@@ -40,8 +56,8 @@ configuration
     for(d <- drivers) {
       logger.info("Loading driver " + d)
       java.sql.DriverManager.registerDriver(d)
-  }
     }
+  }
 
   def installBundles() = {
     val bundles = io.Source.fromInputStream(getClass.getResourceAsStream("/initial.list")).getLines
@@ -78,6 +94,7 @@ configuration
     logger.info("Started osgi framework")
     installBundles()
     loadDrivers()
+    loadJMX()
   }
 
   def install() = {

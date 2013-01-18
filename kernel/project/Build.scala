@@ -8,7 +8,8 @@ object Build extends sbt.Build {
 
   val commonDeps = Seq (
     osgiFramework,
-    clojure
+    clojure,
+    jmx
   )
 
 
@@ -42,4 +43,5 @@ object Dependencies {
   //val osgiFramework = "org.eclipse.tycho"         % "org.eclipse.osgi" % equinoxVer
   val osgiFramework = "org.apache.felix"          % "org.apache.felix.framework" % felixVer
   val clojure       = "org.clojure"               % "clojure"          % clojureVer
+  val jmx           = "org.jvnet.opendmk"         % "jmxremote_optional" % "1.0_01-ea"
 }
