@@ -23,17 +23,17 @@ class Activator extends BundleActivator {
   private lazy val scriptShell = new ScriptingShellService(scriptingPort, scriptingKeys)
   
   private lazy val shells = List(systemShell, dynamyShell, scriptShell) 
-  private lazy val executor = Executors.newFixedThreadPool(3)
+  private lazy val executor = Executors.newFixedThreadPool(1)
 
   override def start(context: BundleContext) = {
     Security.addProvider(new BouncyCastleProvider())
-    for(shell <- shells) {
-      executor.submit(new Runnable {
-        def run() = {
+    executor.submit(new Runnable {
+      def run() = {
+        for(shell <- shells) {
           shell.start()
         }
-      })
-    }
+      }
+    })
   }
 
   override def stop(context: BundleContext) = {
