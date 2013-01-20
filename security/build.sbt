@@ -14,7 +14,7 @@ libraryDependencies += "org.apache.shiro" % "shiro-core" % "1.2.1" % "provided"
 
 libraryDependencies += "com.jolbox" % "bonecp" % "0.8.0-rc1"
 
-libraryDependencies += "dynamy.config" % "dynamy.config" %% "1.0.0"
+libraryDependencies += "dynamy.config" %% "dynamy.config" % "1.0.0"
 
 version := "1.0.0"
 

@@ -1,4 +1,4 @@
-package dynamy.config
+ackage dynamy.config
 
 import scala.reflect.BeanProperty
 
