@@ -51,6 +51,6 @@ class DynamyMemcacheManager(val configurationFile: String) extends DynamyCacheSe
     builder.setConnectionPoolSize(32)
     val client = builder.build()
     client.setName(name)
-    new DynamyMemcache(client) with LoaderWrapper
+    new DynamyMemcache(client) //with LoaderWrapper
   }
 }
