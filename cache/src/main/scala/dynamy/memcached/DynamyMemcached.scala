@@ -49,6 +49,7 @@ class DynamyMemcacheManager(val configurationFile: String) extends DynamyCacheSe
     val builder = new XMemcachedClientBuilder(AddrUtil.getAddresses(cacheConfig.addresses))
     builder.setCommandFactory(new BinaryCommandFactory())
     val client = builder.build()
+    client.setConnectionSize(32)
     client.setName(name)
     new DynamyMemcache(client) with LoaderWrapper
   }
